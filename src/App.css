@@ -1,8 +1,33 @@
-.center-txt{
-  text-align: center;
+/*
+App.js css
+*/
+
+ul {
+    list-style: none;
 }
 
 
-ul{
-  list-style: none;
+.flex-parent-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.flex-parent-right-columns {
+    display: flex;
+}
+
+
+.flex-parent-right-columns > li {
+    margin-right: 15px;
+}
+
+.list-wrapper{
+  margin-left: 20px;
+}
+
+
+.show > li, span, button {
+  cursor: pointer;
 }

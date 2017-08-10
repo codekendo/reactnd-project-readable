@@ -5,38 +5,40 @@ import './App.css';
 class App extends Component {
   render() {
     return (
-    <div>
-    <div className="center-txt">
-      <h1 >Readable</h1>
-      <div className="wrapper-category">
-        <h2>Categories</h2>
-        <ul>
-          <li>wwa(aww)</li>
-          <li>news</li>
-          <li>wow</li>
-          <li>GOT</li>
-        </ul>
+    <div className= "app wrapper">
+      <div className="flex-parent-center">
+        <h1 >Readable</h1>
       </div>
-      <div>
-          <li> Highest Vote Score</li>
-          <li> Lowest Vote Score</li>
-          <li >Newest</li>
-          <li >Oldest</li>
-      </div>
-      <div>
-      </div>
-      <div>
-      Display number of posts: <span>5</span>, <span>10</span>, <span>15</span>,  <span>20</span>
+        <div className="list-wrapper">
+          <h2>Categories</h2>
+          <ul className="flex-parent-right-columns">
+            <li>wwa(aww)</li>
+            <li>news</li>
+            <li>GOT</li>
+            <li>ClickBait Titles that will make you hate yourself</li>
+          </ul>
+        <div className="list-wrapper">
+        <h2>Show</h2>
+        <ul className="flex-parent-right-columns show">
+            <li> Highest Vote Score</li>
+            <li> Lowest Vote Score</li>
+            <li >Newest</li>
+            <li >Oldest</li>
+          </ul>
+        </div>
+        <div>
+        </div>
+        <div>
+        <h3>Display number of posts: <span>5</span>, <span>10</span>, <span>15</span>,  <span>20</span></h3>
+
+        </div>
+
+        <button className="new-post">
+        New Post
+        </button>
+
 
       </div>
-
-      <button>
-      New Post
-      </button>
-
-
-
-    </div>
     </div>
     );
   }
