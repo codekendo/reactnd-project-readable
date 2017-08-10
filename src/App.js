@@ -1,19 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+//Default view is Highest VoteScore
+// Dynamically Add Categories
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+    <div>
+    <div className="center-txt">
+      <h1 >Readable</h1>
+      <div className="wrapper-category">
+        <h2>Categories</h2>
+        <ul>
+          <li>wwa(aww)</li>
+          <li>news</li>
+          <li>wow</li>
+          <li>GOT</li>
+        </ul>
       </div>
+      <div>
+          <li> Highest Vote Score</li>
+          <li> Lowest Vote Score</li>
+          <li >Newest</li>
+          <li >Oldest</li>
+      </div>
+      <div>
+      </div>
+      <div>
+      Display number of posts: <span>5</span>, <span>10</span>, <span>15</span>,  <span>20</span>
+
+      </div>
+
+      <button>
+      New Post
+      </button>
+
+
+
+    </div>
+    </div>
     );
   }
 }
