@@ -3,31 +3,33 @@ App.js css
 */
 
 ul {
-    list-style: none;
+  list-style: none;
 }
-
 
 .flex-parent-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 
 .flex-parent-right-columns {
-    display: flex;
+  display: flex;
 }
-
 
 .flex-parent-right-columns > li {
-    margin-right: 15px;
+  margin-right: 15px;
 }
 
-.list-wrapper{
+.list-wrapper {
   margin-left: 20px;
 }
 
+.show > li,
+span,
+button {
+  cursor: pointer;
+}
 
-.show > li, span, button {
+.pointer {
   cursor: pointer;
 }

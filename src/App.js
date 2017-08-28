@@ -30,7 +30,7 @@ class App extends Component {
         </div>
         <div className="list-wrapper">
           <h2>Categories</h2>
-          <ul className="flex-parent-right-columns">
+          <ul className="flex-parent-right-columns pointer">
             {catState &&
               catState.map((cat, index) => {
                 return (
@@ -69,7 +69,7 @@ class App extends Component {
                 <div>
                 &uarr;
                 {post.voteScore}
-                &darr;	
+                &darr;
                 </div>
 
                 <a href={'/posts/'+post.id}>{post.title}</a>
