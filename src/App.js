@@ -67,7 +67,9 @@ class App extends Component {
               return (
                 <li key={post.id}>
                 <div>
+                &uarr;
                 {post.voteScore}
+                &darr;	
                 </div>
 
                 <a href={'/posts/'+post.id}>{post.title}</a>
