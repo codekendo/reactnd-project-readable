@@ -38,7 +38,7 @@ const initialPostState = [
   }
 ]
 
-function reducer(state = { categories: initalCategoryState }, action) {
+function reducer(state = { categories: initalCategoryState, posts:initialPostState }, action) {
   const { categories, posts } = action
   switch (action.type) {
     case RECEIVE_CATEGORIES:

@@ -8,7 +8,7 @@ import { fetchCategoriesNow, fetchPostsNow } from "./actions/"
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props
-    // dispatch(fetchCategoriesNow());
+    dispatch(fetchCategoriesNow());
     dispatch(fetchPostsNow())
     // dispatch(fetchFunction('posts'))
   }
@@ -65,7 +65,12 @@ class App extends Component {
           <ul>
             {postState && postState.map((post, index)=>{
               return (
-                <li key={post.id}><a href={'/posts/'+post.id}>{post.title}</a>
+                <li key={post.id}>
+                <div>
+                {post.voteScore}
+                </div>
+
+                <a href={'/posts/'+post.id}>{post.title}</a>
                 <p>{post.body}</p>
                 </li>
               )
