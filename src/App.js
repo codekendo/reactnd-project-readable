@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import "./App.css"
 import { connect } from "react-redux"
 import { fetchCategoriesNow, fetchPostsNow } from "./actions/"
+import { Link } from 'react-router-dom'
+
 //Default view is Highest VoteScore
 // Dynamically Add Categories
 
@@ -35,7 +37,9 @@ class App extends Component {
               catState.map((cat, index) => {
                 return (
                   <li key={cat.name + index}>
-                    {cat.name}
+                  <Link to={`/categories/${cat.name}`}>
+                      {cat.name}
+                    </Link>
                   </li>
                 )
               })}
@@ -63,7 +67,10 @@ class App extends Component {
           <div className='post-wrapper'>
           <h2>List of Posts</h2>
           <ul>
-            {postState && postState.map((post, index)=>{
+            {postState && postState.sort((a, b)=>{
+              return b.voteScore -a.voteScore
+            })
+              .map((post, index)=>{
               return (
                 <li key={post.id}>
                 <div>
@@ -76,7 +83,8 @@ class App extends Component {
                 <p>{post.body}</p>
                 </li>
               )
-            })}
+            })
+          }
           </ul>
         </div>
 

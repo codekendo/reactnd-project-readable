@@ -8,6 +8,7 @@ import thunk from "redux-thunk"
 import reducer from "./reducers/"
 import { Provider } from "react-redux"
 import { createLogger } from "redux-logger"
+import { BrowserRouter } from 'react-router-dom'
 
 const middleware = [thunk, createLogger()];
 
@@ -20,9 +21,12 @@ const store = createStore(
 )
 
 render(
+  <BrowserRouter>
   <Provider store={store}>
     <App />
-  </Provider>,
+  </Provider>
+  </BrowserRouter>
+  ,
   document.getElementById("root")
 )
 
