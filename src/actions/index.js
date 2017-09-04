@@ -34,6 +34,9 @@ const receivedPosts =data => ({
   posts:data
 })
 
+
+
+
 /**IGNORE BELOW **/
 //tried to refactor but it did not work out since I probably need a switch statement make it work to when I send that data to the reducer
 //

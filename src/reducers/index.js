@@ -1,4 +1,4 @@
-import { RECEIVE_CATEGORIES, RECEIVE_POSTS } from "../actions/"
+import { RECEIVE_CATEGORIES, RECEIVE_POSTS, RECIEVE_CATEGORY_POSTS } from "../actions/"
 
 const initalCategoryState = [
   {

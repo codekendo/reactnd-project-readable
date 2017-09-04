@@ -1,10 +1,17 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { fetchCategoriesNow, fetchPostsNow } from "../actions/"
+import { Link } from 'react-router-dom'
+import "../App.css"
 
-import "./App.css"
 
-
-class App extends Component {
+class MainPage extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(fetchCategoriesNow());
+    dispatch(fetchPostsNow())
+    // dispatch(fetchFunction('posts'))
+  }
 render() {
   console.log("this.props", this.props)
   const catState = this.props.categories
@@ -76,3 +83,13 @@ render() {
   )
 }
 }
+
+
+const mapStateToProps = state => {
+  return {
+    categories: state.categories,
+    posts: state.posts
+  }
+}
+
+export default connect(mapStateToProps)(MainPage)
