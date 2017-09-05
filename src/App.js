@@ -13,6 +13,8 @@ class App extends Component {
         <Route exact path="/" render={() => <MainPage />} />
 
         <Route exact path="/categories/:name" component={CategoryView} />
+
+        
       </div>
     )
   }

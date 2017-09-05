@@ -6,7 +6,6 @@ import "../App.css"
 class CategoryView extends React.Component {
 
 
-
   componentWillMount() {
     const { dispatch } = this.props
     dispatch(fetchPostsNow())
@@ -14,7 +13,6 @@ class CategoryView extends React.Component {
 
   render() {
     const categoryMatch = this.props.match.params.name
-    console.log(this.props)
     const postState = this.props.posts
     return (
       <div>
