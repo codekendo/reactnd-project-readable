@@ -6,21 +6,31 @@ import "../App.css"
 
 class MainPage extends Component {
   state = {
-    posts: this.props.posts
+    posts: []
   }
 
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(fetchCategoriesNow())
-    dispatch(fetchPostsNow())
-
-    this.setState(prevState => {
-      return prevState.posts.sort((a, b) => {
-        return b.voteScore - a.voteScore
+    dispatch(fetchPostsNow()).then(() => {
+      this.setState({
+        posts: this.props.posts
       })
     })
-  }
 
+    this.state.posts &&
+      this.setState(prevState => {
+        return prevState.posts.sort((a, b) => {
+          return b.voteScore - a.voteScore
+        })
+      })
+  }
+  componentWillReceiveProps() {
+    const { posts } = this.props
+    this.setState({
+      posts: posts
+    })
+  }
   handleClickHighestOrderFirst = e => {
     this.setState(prevState => {
       return prevState.posts.sort((a, b) => {
@@ -45,7 +55,7 @@ class MainPage extends Component {
     })
   }
 
-  handleClickOldestOrderFirst= e => {
+  handleClickOldestOrderFirst = e => {
     this.setState(prevState => {
       return prevState.posts.sort((a, b) => {
         return a.timestamp - b.timestamp
@@ -53,16 +63,13 @@ class MainPage extends Component {
     })
   }
 
-
-
-
-
   render() {
-
+    console.log(this.props)
     const catState = this.props.categories
     const postState = this.state.posts
     return (
       <div className="app wrapper">
+        {JSON.stringify(this.props)}
         <div className="flex-parent-center">
           <h1>Readable</h1>
         </div>
@@ -88,8 +95,10 @@ class MainPage extends Component {
             <li onClick={this.handleClickHighestOrderFirst}>
               Highest Vote Score
             </li>
-            <li onClick={this.handleClickLowestOrderFirst}> Lowest Vote Score</li>
-            <li onClick = {this.handleClickNewestOrderFirst}>Newest</li>
+            <li onClick={this.handleClickLowestOrderFirst}>
+              {" "}Lowest Vote Score
+            </li>
+            <li onClick={this.handleClickNewestOrderFirst}>Newest</li>
             <li onClick={this.handleClickOldestOrderFirst}>Oldest</li>
           </ul>
         </div>
@@ -100,7 +109,9 @@ class MainPage extends Component {
             <span>15</span>, <span>20</span>
           </h3>
         </div>
-        <button className="new-post">New Post</button>
+        <Link to="/new">
+          <button className="new-post">New Post</button>
+        </Link>
 
         <div className="post-wrapper">
           <h2>List of Posts</h2>
