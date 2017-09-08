@@ -3,8 +3,7 @@ import { connect } from "react-redux"
 import { fetchCategoriesNow, sendPostsNow } from "../actions/"
 import "../App.css"
 import faker from "faker"
-import {withRouter} from 'react-router'
-
+import { withRouter } from "react-router"
 
 class AddNewPosts extends React.Component {
   state = {
@@ -12,7 +11,7 @@ class AddNewPosts extends React.Component {
     timestamp: Date.now(),
     title: "",
     body: "",
-    owner: "",
+    author: "",
     category: "",
     voteScore: 1,
     deleted: false
@@ -27,21 +26,26 @@ class AddNewPosts extends React.Component {
     dispatch(fetchCategoriesNow())
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault()
     const { dispatch, history } = this.props
 
-    this.setState({timestamp:Date.now()})
-    if(this.state.title !== '' && this.state.body !=='' && this.state.owner !== '' && this.state.category !=='' ){
+    this.setState({ timestamp: Date.now() })
+    if (
+      this.state.title !== "" &&
+      this.state.body !== "" &&
+      this.state.author !== "" &&
+      this.state.category !== ""
+    ) {
       dispatch(sendPostsNow(this.state))
     }
-    // history.push('/')
+    history.push('/')
   }
   render() {
     const categoryState = this.props.categories
     return (
       <div>
-      {JSON.stringify(this.state)}
+        {JSON.stringify(this.state)}
         <h2>Add New Posts</h2>
         <form onSubmit={this.handleSubmit}>
           <label>
@@ -52,6 +56,7 @@ class AddNewPosts extends React.Component {
               name="title"
               placeholder="Title"
               value={this.state.title}
+              required
               onChange={this.handleChange}
             />
           </label>
@@ -61,9 +66,10 @@ class AddNewPosts extends React.Component {
             <br />
             <input
               type="text"
-              name="owner"
+              name="author"
               placeholder="Your Username"
-              value={this.state.owner}
+              value={this.state.author}
+              required
               onChange={this.handleChange}
             />
           </label>
@@ -71,7 +77,7 @@ class AddNewPosts extends React.Component {
           <label>
             Category
             <br />
-            <select name="category" onChange={this.handleChange}>
+            <select name="category" required onChange={this.handleChange}>
               <option value="0">Select Category</option>
               {categoryState &&
                 categoryState.map((cat, index) => {
@@ -87,7 +93,7 @@ class AddNewPosts extends React.Component {
           <label>
             Message
             <br />
-            <textarea name="body" onChange={this.handleChange} />
+            <textarea name="body" required onChange={this.handleChange} />
           </label>
           <br />
           <button>Add New Post</button>

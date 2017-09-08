@@ -1,4 +1,4 @@
-import { RECEIVE_CATEGORIES, RECEIVE_POSTS } from "../actions/"
+import { RECEIVE_CATEGORIES, RECEIVE_POSTS, SEND_NEW_POST } from "../actions/"
 
 const initalCategoryState = [
   // {
@@ -17,14 +17,14 @@ const initalCategoryState = [
 
 const initialPostState = [
   // {
-  //   id: "6ni6ok3ym7mf1p33lnez",
-  //   timestamp: 1468479767190,
-  //   title: "Learn Redux in 10 minutes!",
-  //   body: "Just kidding. It takes more than 10 minutes to learn technology.",
-  //   author: "thingone",
-  //   category: "redux",
-  //   voteScore: -5,
-  //   deleted: false
+    // id: "6ni6ok3ym7mf1p33lnez",
+    // timestamp: 1468479767190,
+    // title: "Learn Redux in 10 minutes!",
+    // body: "Just kidding. It takes more than 10 minutes to learn technology.",
+    // author: "thingone",
+    // category: "redux",
+    // voteScore: -5,
+    // deleted: false
   // },
   // {
   //   id: "8xf0y6ziyjabvozdd253nd",
@@ -38,8 +38,8 @@ const initialPostState = [
   // }
 ]
 
-function reducer(state = { categories: initalCategoryState, posts:initialPostState }, action) {
-  const { categories, posts } = action
+function reducer(state = { categories: initalCategoryState, posts:[] }, action) {
+  const { categories, posts, post } = action
   switch (action.type) {
     case RECEIVE_CATEGORIES:
       return {
@@ -50,6 +50,20 @@ function reducer(state = { categories: initalCategoryState, posts:initialPostSta
       return {
         ...state,
         posts: [...posts]
+      }
+      case SEND_NEW_POST:
+      return {
+        ...state,
+        posts:[...state.posts, {
+          id:post.id,
+          timestamp: post.timestamp,
+          title: post.title,
+          body: post.body,
+          author: post.author,
+          category: post.category,
+          voteScore: post.voteScore,
+          deleted: post.deleted
+        }]
       }
     default:
       return state

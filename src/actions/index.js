@@ -6,7 +6,7 @@ const fetchCategories = dispatch => {
     method: "GET",
     headers: new Headers({ Authorization: "YmxhaDpibGFo" })
   }
-  const myRequest = new Request("http://localhost:5001/categories", myInit)
+  const myRequest = new Request("http://localhost:3001/categories", myInit)
   return fetch(myRequest).then(res => res.json()).then(data => data)
 }
 
@@ -22,13 +22,20 @@ export const fetchCategoriesNow = () => dispatch => {
 const fetchPosts = dispatch => {
   const myInit = {
     method: "GET",
-    headers: new Headers({ Authorization: "YmxhaDpibGFo" })
+    headers: {
+      Accept: "application/json",
+      Authorization: "Basic YmxhaDpibGFo",
+      "Content-Type": "application/json"
+    }
   }
-  const myRequest = new Request("http://localhost:5001/posts", myInit)
-  return fetch(myRequest).then(res => res.json()).then(data => data)
+  // const myRequest = new Request()
+  return fetch("http://localhost:3001/posts", myInit).then(res => res.json()).then(data => data)
 }
 export const fetchPostsNow = () => dispatch => {
-  return fetchPosts().then(data => dispatch(receivedPosts(data)))
+  return fetchPosts().then(data =>
+
+    dispatch(receivedPosts(data))
+  )
 }
 
 const receivedPosts = data => ({
@@ -36,15 +43,17 @@ const receivedPosts = data => ({
   posts: data
 })
 
-export const sendPostsNow = (bodyObject) => dispatch => {
-  return fetchSendPost(bodyObject).then(data=>console.log(data))
+export const sendPostsNow = bodyObject => dispatch => {
+  return fetchSendPost(bodyObject).then(data =>
+    //  console.log('Response from the API',data)
+    dispatch(sentPost(data))
+  )
 }
 
 const fetchSendPost = bodyObject => {
-  console.log(bodyObject)
+  console.log("bodyObject:", bodyObject)
   const myInit = {
     method: "POST",
-    Accept: "application/json",
     headers: {
       Accept: "application/json",
       Authorization: "Basic YmxhaDpibGFo",
@@ -52,10 +61,14 @@ const fetchSendPost = bodyObject => {
     },
     body: JSON.stringify(bodyObject)
   }
-  return fetch("http://localhost:5001/posts", myInit)
+  return fetch("http://localhost:3001/posts", myInit)
     .then(res => res.json())
     .then(data => data)
 }
+const sentPost = data => ({
+  type: SEND_NEW_POST,
+  post: data
+})
 
 /**IGNORE BELOW **/
 //tried to refactor but it did not work out since I probably need a switch statement make it work to when I send that data to the reducer
@@ -68,7 +81,7 @@ const fetchSendPost = bodyObject => {
 //   return obj
 // }
 // const fetchURL = (thing, dispatch) => {
-//   const fetchUrl = "http://localhost:5001/" + thing
+//   const fetchUrl = "http://localhost:3001/" + thing
 //   const myInit = {
 //     headers: new Headers({ Authorization: "YmxhaDpibGFo" })
 //   }
