@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { fetchCategoriesNow, fetchPostsNow } from "../actions/"
 import { Link } from "react-router-dom"
 import "../App.css"
+import VoteScore from "./VoteScore"
 
 class MainPage extends Component {
   state = {
@@ -120,15 +121,11 @@ class MainPage extends Component {
               postState.map((post, index) => {
                 return (
                   <li key={post.id}>
-                    <div>
-                      &uarr;
-                      {post.voteScore}
-                      &darr;
-                    </div>
+                    <VoteScore score={post.voteScore} />
 
-                    <a href={"/posts/" + post.id}>
+                    <Link to={"/post/" + post.id}>
                       {post.title}
-                    </a>
+                    </Link>
                     <p>
                       {post.body}
                     </p>

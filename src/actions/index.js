@@ -4,10 +4,16 @@ export const SEND_NEW_POST = "SEND_NEW_POST"
 const fetchCategories = dispatch => {
   const myInit = {
     method: "GET",
-    headers: new Headers({ Authorization: "YmxhaDpibGFo" })
+    headers: {
+      Accept: "application/json",
+      Authorization: "Basic YmxhaDpibGFo",
+      "Content-Type": "application/json"
+    }
   }
-  const myRequest = new Request("http://localhost:3001/categories", myInit)
-  return fetch(myRequest).then(res => res.json()).then(data => data)
+
+  return fetch("http://localhost:3001/categories", myInit)
+    .then(res => res.json())
+    .then(data => data)
 }
 
 export const receivedCategories = data => ({
@@ -28,14 +34,12 @@ const fetchPosts = dispatch => {
       "Content-Type": "application/json"
     }
   }
-  // const myRequest = new Request()
-  return fetch("http://localhost:3001/posts", myInit).then(res => res.json()).then(data => data)
+  return fetch("http://localhost:3001/posts", myInit)
+    .then(res => res.json())
+    .then(data => data)
 }
 export const fetchPostsNow = () => dispatch => {
-  return fetchPosts().then(data =>
-
-    dispatch(receivedPosts(data))
-  )
+  return fetchPosts().then(data => dispatch(receivedPosts(data)))
 }
 
 const receivedPosts = data => ({
