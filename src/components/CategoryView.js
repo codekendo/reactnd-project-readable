@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import { fetchPostsNow } from "../actions/"
 import "../App.css"
+import VoteScore from "./VoteScore"
 
 class CategoryView extends React.Component {
 
@@ -27,9 +28,7 @@ class CategoryView extends React.Component {
                 return (
                   <li key={post.id}>
                     <div>
-                      &uarr;
-                      {post.voteScore}
-                      &darr;
+                    <VoteScore score={post.voteScore} id={post.id}/>
                     </div>
 
                     <a href={"/posts/" + post.id}>

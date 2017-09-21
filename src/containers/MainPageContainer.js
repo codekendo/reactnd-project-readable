@@ -3,57 +3,34 @@ import { connect } from "react-redux"
 import { fetchCategoriesNow, fetchPostsNow } from "../actions/"
 import { Link } from "react-router-dom"
 import "../App.css"
-import VoteScore from "./VoteScore"
-import ListPosts from "./ListPosts"
+import ListPosts from "../components/ListPosts"
+import FilterLinkComponent from './FilterLink'
+
+const getVisiblePosts = (posts, filter) => {
+const filteredPosts = posts.filter((post)=> post.deleted===false)
+  switch (filter) {
+    case "SHOW_ALL":
+      return filteredPosts
+    case "HIGHEST_SCORE":
+      return filteredPosts.sort((a, b) => b.voteScore - a.voteScore)
+    case "LOWEST_SCORE":
+      return filteredPosts.sort((a, b) => a.voteScore - b.voteScore)
+    case "NEWEST":
+      return filteredPosts.sort((a, b) => b.timestamp - a.timestamp)
+    case "OLDEST":
+      return filteredPosts.sort((a, b) => a.timestamp - b.timestamp)
+    default:
+      return filteredPosts
+  }
+}
 class MainPage extends Component {
-
-
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(fetchCategoriesNow())
     dispatch(fetchPostsNow())
-
-    // this.state.posts &&
-    //   this.setState(prevState => {
-    //     return prevState.posts.sort((a, b) => {
-    //       return b.voteScore - a.voteScore
-    //     })
-    //   })
-  }
-  handleClickHighestOrderFirst = e => {
-    // this.setState(prevState => {
-    //   return prevState.posts.sort((a, b) => {
-    //     return b.voteScore - a.voteScore
-    //   })
-    // })
-  }
-
-  handleClickLowestOrderFirst = e => {
-    // this.setState(prevState => {
-    //   return prevState.posts.sort((a, b) => {
-    //     return a.voteScore - b.voteScore
-    //   })
-    // })
-  }
-
-  handleClickNewestOrderFirst = e => {
-    // this.setState(prevState => {
-    //   return prevState.posts.sort((a, b) => {
-    //     return b.timestamp - a.timestamp
-    //   })
-    // })
-  }
-
-  handleClickOldestOrderFirst = e => {
-    // this.setState(prevState => {
-    //   return prevState.posts.sort((a, b) => {
-    //     return a.timestamp - b.timestamp
-    //   })
-    // })
   }
 
   render() {
-
     const catState = this.props.categories
     const posts = this.props.posts
     return (
@@ -80,32 +57,24 @@ class MainPage extends Component {
         <div className="list-wrapper">
           <h2>Show</h2>
           <ul className="flex-parent-right-columns show">
-            <li onClick={this.handleClickHighestOrderFirst}>
-              Highest Vote Score
+            <li>
+              <FilterLinkComponent filter="HIGHEST_SCORE">Highest Vote Score</FilterLinkComponent>
+              <FilterLinkComponent filter="LOWEST_SCORE">Lowest Vote Score</FilterLinkComponent>
+              <FilterLinkComponent filter="NEWEST">Newest</FilterLinkComponent>
+              <FilterLinkComponent filter="OLDEST">Oldest</FilterLinkComponent>
+
             </li>
-            <li onClick={this.handleClickLowestOrderFirst}>
-              {" "}Lowest Vote Score
-            </li>
-            <li onClick={this.handleClickNewestOrderFirst}>Newest</li>
-            <li onClick={this.handleClickOldestOrderFirst}>Oldest</li>
           </ul>
         </div>
 
-        <div>
-          <h3>
-            Display number of posts: <span>5</span>, <span>10</span>,{" "}
-            <span>15</span>, <span>20</span>
-          </h3>
-        </div>
         <div style={{marginLeft:20}} className="newButtonWrapper">
+
         <Link to="/new">
           <button className="new-post">New Post</button>
         </Link>
 </div>
         <div className="post-wrapper">
-
-        <ListPosts posts={posts}/>
-
+          <ListPosts posts={posts} />
         </div>
       </div>
     )
@@ -115,7 +84,8 @@ class MainPage extends Component {
 const mapStateToProps = state => {
   return {
     categories: state.categories,
-    posts: state.posts
+    posts: getVisiblePosts(state.posts, state.postFilter),
+    postFilter: state.postFilter
   }
 }
 

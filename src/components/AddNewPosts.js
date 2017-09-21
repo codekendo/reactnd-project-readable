@@ -4,23 +4,25 @@ import { fetchCategoriesNow, sendPostsNow } from "../actions/"
 import "../App.css"
 import faker from "faker"
 import { withRouter } from "react-router"
+import serializeForm from "form-serialize"
 
 class AddNewPosts extends React.Component {
-  state = {
-    id: faker.random.uuid(),
-    timestamp: Date.now(),
-    title: "",
-    body: "",
-    author: "",
-    category: "",
-    voteScore: 1,
-    deleted: false
-  }
+  // state = {
+  //   id: faker.random.uuid(),
+  //   timestamp: Date.now(),
+  //   title: "",
+  //   body: "",
+  //   author: "",
+  //   category: "",
+  //   voteScore: 1,
+  //   deleted: false
+  // }
 
-  handleChange = event => {
-    const attributeName = event.target.getAttribute("name")
-    this.setState({ [attributeName]: event.target.value })
-  }
+  // handleChange = event => {
+  //   const attributeName = event.target.getAttribute("name")
+  //   this.setState({ [attributeName]: event.target.value })
+  // }
+
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(fetchCategoriesNow())
@@ -30,35 +32,36 @@ class AddNewPosts extends React.Component {
     e.preventDefault()
     const { dispatch, history } = this.props
 
-    this.setState({ timestamp: Date.now() })
-    if (
-      this.state.title !== "" &&
-      this.state.body !== "" &&
-      this.state.author !== "" &&
-      this.state.category !== ""
-    ) {
-      dispatch(sendPostsNow(this.state))
+    const formObject = serializeForm(e.target, { hash: true })
+    const modifiedFormObject = {
+      ...formObject,
+      id: faker.random.uuid(),
+      timestamp: Date.now(),
+      voteScore: 1,
+      deleted: false
     }
-    history.push('/')
+
+    if (modifiedFormObject.categories === 0) {
+      alert("please fill out categories")
+    } else {
+      dispatch(sendPostsNow(modifiedFormObject))
+      history.push("/")
+    }
+
+    // dispatch(sendPostsNow())
+    // history.push('/')
   }
   render() {
     const categoryState = this.props.categories
     return (
       <div>
-        {JSON.stringify(this.state)}
+        {JSON.stringify(this.props)}
         <h2>Add New Posts</h2>
         <form onSubmit={this.handleSubmit}>
           <label>
             New Post Title
             <br />
-            <input
-              type="text"
-              name="title"
-              placeholder="Title"
-              value={this.state.title}
-              required
-              onChange={this.handleChange}
-            />
+            <input type="text" name="title" placeholder="Title" required />
           </label>
           <br />
           <label>
@@ -68,16 +71,17 @@ class AddNewPosts extends React.Component {
               type="text"
               name="author"
               placeholder="Your Username"
-              value={this.state.author}
               required
-              onChange={this.handleChange}
             />
           </label>
           <br />
           <label>
             Category
             <br />
-            <select name="category" required onChange={this.handleChange}>
+            <select
+              name="category"
+              required
+            >
               <option value="0">Select Category</option>
               {categoryState &&
                 categoryState.map((cat, index) => {
@@ -93,7 +97,7 @@ class AddNewPosts extends React.Component {
           <label>
             Message
             <br />
-            <textarea name="body" required onChange={this.handleChange} />
+            <textarea name="body" required />
           </label>
           <br />
           <button>Add New Post</button>

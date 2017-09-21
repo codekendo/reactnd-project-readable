@@ -37,4 +37,32 @@ button {
 .voteScore-wrapper{
   display:inline-block;
   margin-right: 15px;
+  font-size:1.5em;
+}
+
+
+.post-detail-header-wrapper{
+  display: flex;
+  padding-top: 40px;
+}
+
+.post-view-subsection{
+  padding-left: 80px;
+}
+
+.comment-section{
+
+
+  padding-left: 80px;
+}
+
+
+.flex-wrapper{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.commentTileWrapper{
+  background-color: #f4f4f4;
 }

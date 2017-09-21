@@ -20,6 +20,7 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 )
 
+
 render(
   <BrowserRouter>
   <Provider store={store}>
@@ -29,5 +30,6 @@ render(
   ,
   document.getElementById("root")
 )
+
 
 registerServiceWorker()

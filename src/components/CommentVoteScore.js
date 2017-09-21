@@ -1,24 +1,25 @@
 import React, { Component } from "react"
 import "../App.css"
-import { upVoteThisPost, downVoteThisPost } from "../actions"
+import { upVoteThisComment, downVoteThisComment } from "../actions"
 import { connect } from "react-redux"
 import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up'
 import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down'
 
-class VoteScore extends Component {
+class CommentVoteScore extends Component {
   handleUpVote = e => {
     e.preventDefault()
     const { dispatch, id} = this.props
-    dispatch(upVoteThisPost(id))
+    dispatch(upVoteThisComment(id))
   }
   handleDownVote = e => {
     e.preventDefault()
     const { dispatch, id} = this.props
-    dispatch(downVoteThisPost(id))
+    dispatch(downVoteThisComment(id))
   }
 
   render() {
-    const { score } = this.props
+    const { score} = this.props
+
     return (
       <div className="voteScore-wrapper">
         <span style={{ paddingLeft: 9 }}>
@@ -33,4 +34,4 @@ class VoteScore extends Component {
   }
 }
 
-export default connect()(VoteScore)
+export default connect()(CommentVoteScore)
