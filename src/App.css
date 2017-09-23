@@ -65,4 +65,8 @@ button {
 
 .commentTileWrapper{
   background-color: #f4f4f4;
+  margin-bottom: 25px;
+}
+.commentButtonWrapper{
+  margin-bottom: 20px;
 }

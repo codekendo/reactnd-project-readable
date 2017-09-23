@@ -1,23 +1,31 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { fetchPostsNow, getCommentsById, setCommentFilter, deletePostAction } from "../actions"
+import {
+  fetchPostsNow,
+  getCommentsById,
+  setCommentFilter,
+  deletePostAction
+} from "../actions"
 import VoteScore from "./VoteScore"
 import { showDate } from "../utils/utility"
 import { Link } from "react-router-dom"
 import CommentTile from "./CommentTile"
 import "../App.css"
+import AddComment from './AddComment'
+
+
 const filterMyComments = (comments, filter) => {
+const filteredComments = comments.filter((comment)=>comment.deleted===false)
+
   switch (filter) {
     case "HIGHEST_SCORE":
-      return comments.sort((a, b) => b.voteScore - a.voteScore)
+      return filteredComments.sort((a, b) => b.voteScore - a.voteScore)
     case "NEWEST":
-      return comments.sort((a, b) => b.timestamp - a.timestamp)
+      return filteredComments.sort((a, b) => b.timestamp - a.timestamp)
     default:
-      return comments
+      return filteredComments
   }
 }
-
-
 
 class PostDetailView extends Component {
   componentWillMount() {
@@ -37,15 +45,15 @@ class PostDetailView extends Component {
     this.props.getCommentFilter("NEWEST")
   }
 
-  handleDeletePost = e =>{
-    e.preventDefault();
-    const {postId, deletePost} =this.props
+  handleDeletePost = e => {
+    e.preventDefault()
+    const { postId, deletePost } = this.props
     deletePost(postId)
   }
 
   render() {
     const { posts, postId, comments } = this.props
-    console.log(this.props)
+    // console.log(this.props)
     let post
 
     post = posts.find(singlePosts => {
@@ -90,17 +98,27 @@ class PostDetailView extends Component {
               <button onClick={this.handleDeletePost}>Delete</button>
             </main>
           </div>}
+
         <div className="comment-section">
-          <button onClick={this.handleScore}>Highest Score</button>
-
-          <button onClick={this.handleTime}>Newest</button>
-
-          {comments && <h2>Comments:</h2>}
           {comments &&
-            comments.map(comment => {
-              return <CommentTile comment={comment} key={comment.id} />
-            })}
+            <div>
+              <h2>Comments:</h2>
+              <div className="commentButtonWrapper">
+                <button onClick={this.handleScore}>Highest Score</button>
+                <button onClick={this.handleTime}>Newest</button>
+              </div>
+              <div>
+              {comments.map(comment => {
+                return <CommentTile comment={comment} key={comment.id} />
+              })}
+              </div>
+              <div>
+              <AddComment postId={this.props.postId}/>
+              </div>
+            </div>}
         </div>
+
+
       </div>
     )
   }
@@ -124,7 +142,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getCommentFilter: (filter = "HIGHEST_SCORE") => {
     dispatch(setCommentFilter(filter))
   },
-  deletePost:(id)=>{
+  deletePost: id => {
     dispatch(deletePostAction(id))
   }
 })

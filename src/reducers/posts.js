@@ -1,4 +1,4 @@
-import { SET_POST_FILTER, RECEIVE_POSTS, UPVOTE, DOWNVOTE, DELETE_POST } from "../actions/index.js"
+import { SET_POST_FILTER, RECEIVE_POSTS, UPVOTE, DOWNVOTE, DELETE_POST, EDIT_POST } from "../actions/index.js"
 
 export const postFilter = (state = "SHOW_ALL", action) => {
   switch (action.type) {
@@ -10,7 +10,7 @@ export const postFilter = (state = "SHOW_ALL", action) => {
 }
 
 export const posts = (state = [], action) => {
-  const { posts, id } = action
+  const { posts, id, post } = action
   switch (action.type) {
     case RECEIVE_POSTS:
       return [...posts]
@@ -41,6 +41,16 @@ export const posts = (state = [], action) => {
           postObject.deleted=true
         }
         return postObject
+      })
+
+
+      case EDIT_POST:
+      return [...state].map(postObject=>{
+        if(postObject.id === id){
+          return post
+        }else{
+          return postObject
+        }
       })
 
     default:

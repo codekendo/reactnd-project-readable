@@ -1,4 +1,4 @@
-import { SET_COMMENTS, UPVOTE_COMMENT, DOWNVOTE_COMMENT ,SET_COMMENT_FILTER} from "../actions"
+import { SET_COMMENTS, UPVOTE_COMMENT, DOWNVOTE_COMMENT ,SET_COMMENT_FILTER, ADD_COMMENT, DELETE_COMMENT} from "../actions"
 
 export const commentFilter = (state = "HIGHEST_SCORE", action)=>{
   switch(action.type){
@@ -9,7 +9,7 @@ export const commentFilter = (state = "HIGHEST_SCORE", action)=>{
 }
 
 export const comments = (state = [], action) => {
-  const { comments, id } = action
+  const { comments, id, comment } = action
   switch (action.type) {
     case SET_COMMENTS:
       return comments
@@ -23,6 +23,8 @@ export const comments = (state = [], action) => {
       })
 
 
+
+
     case DOWNVOTE_COMMENT:
       return [...state].map(commentObject => {
         if (commentObject.id === id) {
@@ -30,7 +32,24 @@ export const comments = (state = [], action) => {
         }
         return commentObject
       })
+
+      case ADD_COMMENT:
+      return [...state, {...comment}]
+
+      case DELETE_COMMENT:
+      return [...state].map(commentObject => {
+        if (commentObject.id === id) {
+          commentObject.deleted=true
+        }
+        return commentObject
+      })
+
+
+
+
     default:
       return state
   }
+
+
 }
