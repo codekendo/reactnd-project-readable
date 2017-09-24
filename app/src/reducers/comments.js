@@ -1,15 +1,24 @@
-import { SET_COMMENTS, UPVOTE_COMMENT, DOWNVOTE_COMMENT ,SET_COMMENT_FILTER, ADD_COMMENT, DELETE_COMMENT} from "../actions"
+import {
+  SET_COMMENTS,
+  UPVOTE_COMMENT,
+  DOWNVOTE_COMMENT,
+  SET_COMMENT_FILTER,
+  ADD_COMMENT,
+  DELETE_COMMENT,
+  UPDATE_COMMENT
+} from "../actions"
 
-export const commentFilter = (state = "HIGHEST_SCORE", action)=>{
-  switch(action.type){
+export const commentFilter = (state = "HIGHEST_SCORE", action) => {
+  switch (action.type) {
     case SET_COMMENT_FILTER:
-    return action.commentFilter
-    default:return state
+      return action.commentFilter
+    default:
+      return state
   }
 }
 
 export const comments = (state = [], action) => {
-  const { comments, id, comment } = action
+  const { comments, id, comment, modObject } = action
   switch (action.type) {
     case SET_COMMENTS:
       return comments
@@ -22,9 +31,6 @@ export const comments = (state = [], action) => {
         return commentObject
       })
 
-
-
-
     case DOWNVOTE_COMMENT:
       return [...state].map(commentObject => {
         if (commentObject.id === id) {
@@ -33,23 +39,28 @@ export const comments = (state = [], action) => {
         return commentObject
       })
 
-      case ADD_COMMENT:
-      return [...state, {...comment}]
+    case ADD_COMMENT:
+      return [...state, { ...comment }]
 
-      case DELETE_COMMENT:
+    case DELETE_COMMENT:
       return [...state].map(commentObject => {
         if (commentObject.id === id) {
-          commentObject.deleted=true
+          commentObject.deleted = true
         }
         return commentObject
       })
 
-
-
+    case UPDATE_COMMENT:
+      return [...state].map(commentObject => {
+        if (commentObject.id === id) {
+          commentObject.body = modObject.body
+          commentObject.author = modObject.author
+          return commentObject
+        }
+        return commentObject
+      })
 
     default:
       return state
   }
-
-
 }

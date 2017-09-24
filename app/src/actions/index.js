@@ -13,6 +13,7 @@ export const DELETE_POST = "DELETE_POST"
 export const EDIT_POST = "EDIT_POST"
 export const ADD_COMMENT = "ADD_COMMENT"
 export const DELETE_COMMENT = "DELETE_COMMENT"
+export const UPDATE_COMMENT = "UPDATE_COMMENT"
 
 const fetchCategories = dispatch => {
   const myInit = {
@@ -283,3 +284,27 @@ const deleteCommentThroughApi = id => {
 }
 
 const deleteCommentThroughRedux = id => ({ type: DELETE_COMMENT, id })
+
+export const updateCommentAction = (id, modObject) => dispatch => {
+  updateCommentThroughApi(id, modObject).then(() =>
+    dispatch(updateCommentThroughRedux(id, modObject))
+  )
+}
+const updateCommentThroughApi = (id, body) => {
+  const myInit = {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      Authorization: "Basic YmxhaDpibGFo",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  }
+  return fetch(`http://localhost:3001/comments/${id}`, myInit)
+}
+
+const updateCommentThroughRedux = (id, modObject) => ({
+  type: UPDATE_COMMENT,
+  id,
+  modObject
+})

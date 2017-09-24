@@ -29,7 +29,7 @@ class CommentTile extends Component {
         </div>
         <br />
         <div>
-          <Link to={`/editcomment/${comment.id}`}>
+          <Link to={`/editcomment/${comment.parentId}`}>
             {" "}<button>Edit</button>
           </Link>
           &nbsp;

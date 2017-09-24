@@ -37,9 +37,10 @@ class App extends Component {
         />
 
         <Route
-          path="editcomment/:commentid"
-          render={({ match }) =>
-            <EditCommentView commentId={match.params.commentid} />}
+          exact
+          path="/editcomment/:id"
+          render={({match}) =>
+            <EditCommentView commentId={match.params.id} history={history} />}
         />
       </div>
     )

@@ -8,28 +8,24 @@ import thunk from "redux-thunk"
 import reducer from "./reducers/"
 import { Provider } from "react-redux"
 import { createLogger } from "redux-logger"
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from "react-router-dom"
 
-const middleware = [thunk, createLogger()];
+const middleware = [thunk, createLogger()]
 
-
-const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(
   reducer,
   composeEnhancers(applyMiddleware(...middleware))
 )
 
-
 render(
   <BrowserRouter>
-  <Provider store={store}>
-    <App />
-  </Provider>
-  </BrowserRouter>
-  ,
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById("root")
 )
-
 
 registerServiceWorker()
