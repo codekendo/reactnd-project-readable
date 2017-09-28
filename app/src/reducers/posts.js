@@ -1,4 +1,4 @@
-import { SET_POST_FILTER, RECEIVE_POSTS, UPVOTE, DOWNVOTE, DELETE_POST, EDIT_POST } from "../actions/index.js"
+import { SET_POST_FILTER, SET_POSTS, UPVOTE, DOWNVOTE, DELETE_POST, EDIT_POST } from "../actions/index.js"
 
 export const postFilter = (state = "SHOW_ALL", action) => {
   switch (action.type) {
@@ -12,7 +12,7 @@ export const postFilter = (state = "SHOW_ALL", action) => {
 export const posts = (state = [], action) => {
   const { posts, id, post } = action
   switch (action.type) {
-    case RECEIVE_POSTS:
+    case SET_POSTS:
       return [...posts]
 
     case UPVOTE:

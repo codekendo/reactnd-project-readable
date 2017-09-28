@@ -1,31 +1,15 @@
 import React from "react"
 import { connect } from "react-redux"
-import { fetchCategoriesNow, sendPostsNow } from "../actions/"
+import { getCategoriesAction, sendPostsNow } from "../actions/"
 import "../App.css"
 import faker from "faker"
 import { withRouter } from "react-router"
 import serializeForm from "form-serialize"
 
 class AddNewPosts extends React.Component {
-  // state = {
-  //   id: faker.random.uuid(),
-  //   timestamp: Date.now(),
-  //   title: "",
-  //   body: "",
-  //   author: "",
-  //   category: "",
-  //   voteScore: 1,
-  //   deleted: false
-  // }
-
-  // handleChange = event => {
-  //   const attributeName = event.target.getAttribute("name")
-  //   this.setState({ [attributeName]: event.target.value })
-  // }
-
   componentDidMount() {
     const { dispatch } = this.props
-    dispatch(fetchCategoriesNow())
+    dispatch(getCategoriesAction())
   }
 
   handleSubmit = e => {
@@ -47,9 +31,6 @@ class AddNewPosts extends React.Component {
       dispatch(sendPostsNow(modifiedFormObject))
       history.push("/")
     }
-
-    // dispatch(sendPostsNow())
-    // history.push('/')
   }
   render() {
     const categoryState = this.props.categories
@@ -78,10 +59,7 @@ class AddNewPosts extends React.Component {
           <label>
             Category
             <br />
-            <select
-              name="category"
-              required
-            >
+            <select name="category" required>
               <option value="0">Select Category</option>
               {categoryState &&
                 categoryState.map((cat, index) => {

@@ -1,19 +1,23 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router"
 import { connect } from "react-redux"
-import { fetchPostsNow, fetchCategoriesNow, editPostAction } from "../actions"
+import {
+  fetchPostsNow,
+  getCategoriesAction,
+  editPostAction
+} from "../actions"
 import serializeForm from "form-serialize"
 
 class EditPostView extends Component {
   componentDidMount() {
     const { dispatch } = this.props
-    dispatch(fetchCategoriesNow())
+    dispatch(getCategoriesAction())
     dispatch(fetchPostsNow())
   }
   handleSubmit = e => {
     e.preventDefault()
     const { dispatch, history } = this.props
-    const post = this.props.post[0]
+    const post = this.props.post
     const formObject = serializeForm(e.target, { hash: true })
     const modifiedFormObject = {
       ...formObject,
@@ -22,9 +26,7 @@ class EditPostView extends Component {
       voteScore: post.voteScore,
       deleted: false
     }
-    dispatch(editPostAction(modifiedFormObject, post.id)).then(
-      history.push("/")
-    )
+    dispatch(editPostAction(modifiedFormObject, post.id)).then(history.goBack())
   }
 
   handleGoBack = e => {
@@ -34,13 +36,17 @@ class EditPostView extends Component {
   }
 
   render() {
-    //              <EditPostForm post={post} categories={categories}  />
-    // console.log(this.props)
-    const post = this.props.post[0]
+    const post = this.props.post
     const { categories } = this.props
 
     return (
       <div>
+
+
+
+
+
+
         {post &&
           <div>
             <h2>
@@ -115,7 +121,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     categories: state.categories,
     posts: state.posts,
-    post: state.posts.filter(post => post.id === ownProps.match.params.id)
+    post: state.posts.find(post => post.id === ownProps.match.params.id)
   }
 }
 

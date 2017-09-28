@@ -1,13 +1,13 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { fetchCategoriesNow, fetchPostsNow } from "../actions/"
+import { getCategoriesAction, fetchPostsNow } from "../actions/"
 import { Link } from "react-router-dom"
 import "../App.css"
 import ListPosts from "../components/ListPosts"
-import FilterLinkComponent from './FilterLink'
+import Header from "../containers/HeaderContainer"
 
 const getVisiblePosts = (posts, filter) => {
-const filteredPosts = posts.filter((post)=> post.deleted===false)
+  const filteredPosts = posts.filter(post => post.deleted === false)
   switch (filter) {
     case "SHOW_ALL":
       return filteredPosts
@@ -23,10 +23,11 @@ const filteredPosts = posts.filter((post)=> post.deleted===false)
       return filteredPosts
   }
 }
+
 class MainPage extends Component {
   componentDidMount() {
     const { dispatch } = this.props
-    dispatch(fetchCategoriesNow())
+    dispatch(getCategoriesAction())
     dispatch(fetchPostsNow())
   }
 
@@ -34,47 +35,17 @@ class MainPage extends Component {
     const catState = this.props.categories
     const posts = this.props.posts
     return (
-      <div className="app wrapper">
-        <div className="flex-parent-center">
-          <h1>Readable</h1>
-        </div>
-        <div className="list-wrapper">
-          <h2>Categories</h2>
-          <ul className="flex-parent-right-columns pointer">
-            {catState &&
-              catState.map((cat, index) => {
-                return (
-                  <li key={cat.name + index}>
-                    <Link to={`/categories/${cat.name}`}>
-                      {cat.name}
-                    </Link>
-                  </li>
-                )
-              })}
-          </ul>
-        </div>
+      <div className="app container">
+        <div className="section">
+          <Header categories={catState} />
 
-        <div className="list-wrapper">
-          <h2>Show</h2>
-          <ul className="flex-parent-right-columns show">
-            <li>
-              <FilterLinkComponent filter="HIGHEST_SCORE">Highest Vote Score</FilterLinkComponent>
-              <FilterLinkComponent filter="LOWEST_SCORE">Lowest Vote Score</FilterLinkComponent>
-              <FilterLinkComponent filter="NEWEST">Newest</FilterLinkComponent>
-              <FilterLinkComponent filter="OLDEST">Oldest</FilterLinkComponent>
-
-            </li>
-          </ul>
-        </div>
-
-        <div style={{marginLeft:20}} className="newButtonWrapper">
-
-        <Link to="/new">
-          <button className="new-post">New Post</button>
-        </Link>
-</div>
-        <div className="post-wrapper">
           <ListPosts posts={posts} />
+        </div>
+
+        <div className="newButtonWrapper">
+          <Link to="/new">
+            <button className="button is-info">New Post</button>
+          </Link>
         </div>
       </div>
     )

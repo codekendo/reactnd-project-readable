@@ -1,5 +1,5 @@
-export const RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES"
-export const RECEIVE_POSTS = "RECEIVE_POSTS"
+export const SET_CATEGORIES = "SET_CATEGORIES"
+export const SET_POSTS = "SET_POSTS"
 export const SEND_NEW_POST = "SEND_NEW_POST"
 export const UPDATE_INDIVIDUAL_POST = "UPDATE_INDIVIDUAL_POST"
 export const SET_POST_FILTER = "SET_POST_FILTER"
@@ -15,7 +15,11 @@ export const ADD_COMMENT = "ADD_COMMENT"
 export const DELETE_COMMENT = "DELETE_COMMENT"
 export const UPDATE_COMMENT = "UPDATE_COMMENT"
 
-const fetchCategories = dispatch => {
+export const getCategoriesAction = () => dispatch => {
+  return getCategoriesThroughApi().then(data => dispatch(receivedCategories(data)))
+}
+
+const getCategoriesThroughApi = dispatch => {
   const myInit = {
     method: "GET",
     headers: {
@@ -27,17 +31,13 @@ const fetchCategories = dispatch => {
 
   return fetch("http://localhost:3001/categories", myInit)
     .then(res => res.json())
-    .then(data => data)
+    .then(data => data) 
 }
 
-export const receivedCategories = data => ({
-  type: RECEIVE_CATEGORIES,
+const receivedCategories = data => ({
+  type: SET_CATEGORIES,
   categories: data.categories
 })
-
-export const fetchCategoriesNow = () => dispatch => {
-  return fetchCategories().then(data => dispatch(receivedCategories(data)))
-}
 
 const fetchPosts = dispatch => {
   const myInit = {
@@ -56,14 +56,10 @@ export const fetchPostsNow = () => dispatch => {
   return fetchPosts().then(data => dispatch(receivedPosts(data)))
 }
 
-const receivedPosts = data => ({ type: RECEIVE_POSTS, posts: data })
+const receivedPosts = data => ({ type: SET_POSTS, posts: data })
 
 export const sendPostsNow = bodyObject => dispatch => {
   return fetchSendPost(bodyObject)
-  // .then(data =>
-  //  console.log('Response from the API',data)
-  // dispatch(sentPost(data))
-  // )
 }
 
 const fetchSendPost = bodyObject => {
@@ -82,7 +78,6 @@ const fetchSendPost = bodyObject => {
     .then(data => data)
 }
 
-// const sentPost = data => ({ type: SEND_NEW_POST, post: data })
 
 export const setPostFilter = myFilter => ({ type: SET_POST_FILTER, myFilter })
 

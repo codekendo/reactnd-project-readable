@@ -1,9 +1,9 @@
-import {RECEIVE_CATEGORIES} from "../actions"
+import {SET_CATEGORIES} from "../actions"
 
 export const categories = (state=[], action)=>{
   const {categories} = action
   switch(action.type){
-    case RECEIVE_CATEGORIES:
+    case SET_CATEGORIES:
     return categories
     default: return state
   }

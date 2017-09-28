@@ -9,6 +9,7 @@ import reducer from "./reducers/"
 import { Provider } from "react-redux"
 import { createLogger } from "redux-logger"
 import { BrowserRouter } from "react-router-dom"
+import "./bulma.css"
 
 const middleware = [thunk, createLogger()]
 
