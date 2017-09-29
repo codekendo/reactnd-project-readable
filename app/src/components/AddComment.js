@@ -43,8 +43,6 @@ class AddComment extends Component {
             type="text"
             required
             name="body"
-            cols={50}
-            rows={15}
             placeholder="Add a comment"
           />
           <br />
@@ -62,8 +60,4 @@ class AddComment extends Component {
   } //EndofRender
 } //End of Edit Post View
 
-const mapStateToProps = (state, ownProps) => {
-  return state
-}
-
-export default connect(mapStateToProps)(AddComment)
+export default connect()(AddComment)

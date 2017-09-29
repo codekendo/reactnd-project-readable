@@ -17,61 +17,61 @@ class CategoryView extends React.Component {
     const categoryMatch = this.props.match.params.name
     const posts = this.props.posts
     return (
-      <div class="container">
+      <div className="container">
         <div className="section">
-        <Header />
+          <Header />
 
-            <div className="level">
-              <div className="level-left">
-                <div className="level-item" style={{paddingLeft:50}}>
-                  <p className="subtitle is-5">
-                    <strong>
-                      List of {categoryMatch} posts
-                    </strong>
-                  </p>
-                </div>
+          <div className="level">
+            <div className="level-left">
+              <div className="level-item" style={{ paddingLeft: 50 }}>
+                <p className="subtitle is-5">
+                  <strong>
+                    List of {categoryMatch} posts
+                  </strong>
+                </p>
               </div>
             </div>
-            {posts &&
-              posts
-                .filter(post => post.category === categoryMatch)
-                .sort((a, b) => {
-                  return b.voteScore - a.voteScore
-                })
-                .map((post, index) => {
-                  return (
-                    <div key={post.id + index}>
-                      <hr />
-                      <div className="container">
-                        <article className="media">
-                          <div className="media-left">
-                            <figure className="has-text-centered is-64x64">
-                              <VoteScore score={post.voteScore} id={post.id} />
-                            </figure>
-                          </div>
-                          <div className="media-content">
-                            <div className="content">
-                              <strong>
-                                {" "}<Link to={"/post/" + post.id}>
-                                  {post.title}
-                                </Link>
-                              </strong>
-
-                              <p>
-                                <strong>{post.author}</strong>{" "}
-                                <small>{post.category}</small>{" "}
-                                <small>{showDate(post.timestamp)}</small>
-                                <br />
-                                {post.body}{" "}
-                              </p>
-                            </div>
-                          </div>
-                        </article>
-                      </div>
-                    </div>
-                  )
-                })}
           </div>
+          {posts &&
+            posts
+              .filter(post => post.category === categoryMatch)
+              .sort((a, b) => {
+                return b.voteScore - a.voteScore
+              })
+              .map((post, index) => {
+                return (
+                  <div key={post.id + index}>
+                    <hr />
+                    <div className="container">
+                      <article className="media">
+                        <div className="media-left">
+                          <figure className="has-text-centered is-64x64">
+                            <VoteScore score={post.voteScore} id={post.id} />
+                          </figure>
+                        </div>
+                        <div className="media-content">
+                          <div className="content">
+                            <strong>
+                              {" "}<Link to={"/post/" + post.id}>
+                                {post.title}
+                              </Link>
+                            </strong>
+
+                            <p>
+                              <strong>{post.author}</strong>{" "}
+                              <small>{post.category}</small>{" "}
+                              <small>{showDate(post.timestamp)}</small>
+                              <br />
+                              {post.body}{" "}
+                            </p>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                )
+              })}
+        </div>
       </div>
     )
   } //End of Render

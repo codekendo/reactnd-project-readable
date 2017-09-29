@@ -28,11 +28,11 @@ class EditCommentView extends Component {
   render() {
     const { comment } = this.props
     return (
-      <div>
+      <div className="section">
         {comment &&
           <div>
             <Header />
-            <div classNme="columns">
+            <div className="columns">
               <div className="column is-half">
                 <form onSubmit={this.handleSubmit}>
                   <label className="label">
@@ -57,12 +57,21 @@ class EditCommentView extends Component {
                     name="body"
                     defaultValue={comment.body}
                   />
-<br/>
-                  <input type="submit" className="button is-success" value="Update Comments" />
+                  <br />
+                  <input
+                    type="submit"
+                    className="button is-success"
+                    value="Update Comments"
+                  />
                 </form>
-                <br/>
+                <br />
 
-                <button className="button is-primary"onClick={this.handleGoBack}>Go Back</button>
+                <button
+                  className="button is-primary"
+                  onClick={this.handleGoBack}
+                >
+                  Go Back
+                </button>
               </div>
             </div>
           </div>}
@@ -71,13 +80,10 @@ class EditCommentView extends Component {
   } //EndofRender
 } //End of EditCommentView
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = ({ comments }, ownProps) => {
   return {
-    ...state,
-    comments: state.comments,
-    comment: state.comments.find(
-      comment => comment.parentId === ownProps.commentId
-    )
+    comments,
+    comment: comments.find(comment => comment.parentId === ownProps.commentId)
   }
 }
 

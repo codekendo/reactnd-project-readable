@@ -19,17 +19,15 @@ export const commentFilter = (state = "HIGHEST_SCORE", action) => {
 
 export const comments = (state = [], action) => {
   const { comments, id, comment, modObject } = action
+  const findIndex = id => state.findIndex(comment => comment.id === id)
+
   switch (action.type) {
     case SET_COMMENTS:
       return comments
 
     case UPVOTE_COMMENT:
-      return [...state].map(commentObject => {
-        if (commentObject.id === id) {
-          commentObject.voteScore++
-        }
-        return commentObject
-      })
+      const index = findIndex(id)
+      return [...state, state[index].voteScore++]
 
     case DOWNVOTE_COMMENT:
       return [...state].map(commentObject => {

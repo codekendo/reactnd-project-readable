@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 
 class SortPostComponent extends Component {
-
   handleOnChange = e => {
     e.preventDefault()
     this.props.onChange(e.target.value)

@@ -54,23 +54,21 @@ class CommentTile extends Component {
                   {comment.body}{" "}
                 </p>
                 <p>
-                  <div>
-                    <Link to={`/editcomment/${comment.parentId}`}>
-                      {" "}<button
-                        className="button is-primary is-small"
-                        style={{ marginRight: 10, marginLeft: 15 }}
-                      >
-                        Edit
-                      </button>
-                    </Link>
-                    &nbsp;
-                    <button
-                      onClick={this.handleDelete}
-                      className="button is-small is-warning"
+                  <Link to={`/editcomment/${comment.parentId}`}>
+                    {" "}<button
+                      className="button is-primary is-small"
+                      style={{ marginRight: 10, marginLeft: 15 }}
                     >
-                      Delete
+                      Edit
                     </button>
-                  </div>
+                  </Link>
+                  &nbsp;
+                  <button
+                    onClick={this.handleDelete}
+                    className="button is-small is-warning"
+                  >
+                    Delete
+                  </button>
                 </p>
               </div>
             </div>

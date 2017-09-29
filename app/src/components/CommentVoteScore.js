@@ -18,12 +18,11 @@ class CommentVoteScore extends Component {
   }
 
   render() {
-    const { score } = this.props
-
+    const { comment } = this.props
     return (
       <div className="voteScore-wrapper">
         <span style={{ paddingLeft: 9 }}>
-          {score}
+          {comment.voteScore}
         </span>
         <div>
           <span onClick={this.handleUpVote}>
@@ -38,4 +37,9 @@ class CommentVoteScore extends Component {
   }
 }
 
-export default connect()(CommentVoteScore)
+const mapStateToProps = ({ comments }, ownProps) => ({
+  comments,
+  comment: comments.find(comment => comment.id === ownProps.id)
+})
+
+export default connect(mapStateToProps)(CommentVoteScore)

@@ -140,7 +140,12 @@ class PostDetailView extends Component {
 
                   <div>
                     {comments.map(comment => {
-                      return <CommentTile comment={comment} key={comment.id} />
+                      return (
+                        <CommentTile
+                          comment={comment}
+                          key={comment.id + comment.parentId}
+                        />
+                      )
                     })}
                   </div>
                   <div>

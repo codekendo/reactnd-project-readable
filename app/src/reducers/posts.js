@@ -1,4 +1,11 @@
-import { SET_POST_FILTER, SET_POSTS, UPVOTE, DOWNVOTE, DELETE_POST, EDIT_POST } from "../actions/index.js"
+import {
+  SET_POST_FILTER,
+  SET_POSTS,
+  UPVOTE,
+  DOWNVOTE,
+  DELETE_POST,
+  EDIT_POST
+} from "../actions/index.js"
 
 export const postFilter = (state = "SHOW_ALL", action) => {
   switch (action.type) {
@@ -11,21 +18,17 @@ export const postFilter = (state = "SHOW_ALL", action) => {
 
 export const posts = (state = [], action) => {
   const { posts, id, post } = action
+  const findIndex = id => state.findIndex(post => post.id === id)
+
   switch (action.type) {
     case SET_POSTS:
       return [...posts]
-
     case UPVOTE:
-      return [...state].map(postObject => {
-        if (postObject.id === id) {
-          postObject.voteScore++
-        }
-        return postObject
-      })
+      const index = findIndex(id)
 
+      return [...state, state[index].voteScore++]
 
-
-      case DOWNVOTE:
+    case DOWNVOTE:
       return [...state].map(postObject => {
         if (postObject.id === id) {
           postObject.voteScore--
@@ -33,22 +36,19 @@ export const posts = (state = [], action) => {
         return postObject
       })
 
-
-
-      case DELETE_POST:
+    case DELETE_POST:
       return [...state].map(postObject => {
         if (postObject.id === id) {
-          postObject.deleted=true
+          postObject.deleted = true
         }
         return postObject
       })
 
-
-      case EDIT_POST:
-      return [...state].map(postObject=>{
-        if(postObject.id === id){
+    case EDIT_POST:
+      return [...state].map(postObject => {
+        if (postObject.id === id) {
           return post
-        }else{
+        } else {
           return postObject
         }
       })

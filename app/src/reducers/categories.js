@@ -1,10 +1,11 @@
-import {SET_CATEGORIES} from "../actions"
+import { SET_CATEGORIES } from "../actions"
 
-export const categories = (state=[], action)=>{
-  const {categories} = action
-  switch(action.type){
+export const categories = (state = [], action) => {
+  const { categories } = action
+  switch (action.type) {
     case SET_CATEGORIES:
-    return categories
-    default: return state
+      return categories
+    default:
+      return state
   }
 }

@@ -16,7 +16,9 @@ export const DELETE_COMMENT = "DELETE_COMMENT"
 export const UPDATE_COMMENT = "UPDATE_COMMENT"
 
 export const getCategoriesAction = () => dispatch => {
-  return getCategoriesThroughApi().then(data => dispatch(receivedCategories(data)))
+  return getCategoriesThroughApi().then(data =>
+    dispatch(receivedCategories(data))
+  )
 }
 
 const getCategoriesThroughApi = dispatch => {
@@ -76,7 +78,6 @@ const fetchSendPost = bodyObject => {
     .then(res => res.json())
     .then(data => data)
 }
-
 
 export const setPostFilter = myFilter => ({ type: SET_POST_FILTER, myFilter })
 

@@ -1,14 +1,9 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router"
 import { connect } from "react-redux"
-import {
-  fetchPostsNow,
-  getCategoriesAction,
-  editPostAction
-} from "../actions"
+import { fetchPostsNow, getCategoriesAction, editPostAction } from "../actions"
 import serializeForm from "form-serialize"
 import Header from "../containers/HeaderContainer"
-
 
 class EditPostView extends Component {
   componentDidMount() {
@@ -42,96 +37,98 @@ class EditPostView extends Component {
     const { categories } = this.props
 
     return (
-      <div classNme="container" >
-
-
-
-<Header/>
-
+      <div className="container">
+        <Header />
 
         {post &&
           <div classNme="columns">
-          <div className="column is-half">
-            <h2 className="title is-5">
-              Edit this post: {post.title}
-            </h2>
+            <div className="column is-half">
+              <h2 className="title is-5">
+                Edit this post: {post.title}
+              </h2>
 
-            <form onSubmit={this.handleSubmit}>
-              <label  className="label">
-                Post Title:
+              <form onSubmit={this.handleSubmit}>
+                <label className="label">
+                  Post Title:
+                  <br />
+                  <input
+                    className="input"
+                    type="text"
+                    name="title"
+                    defaultValue={post.title}
+                    required
+                  />
+                </label>
+                <br />
+
+                <label className="label">
+                  Username:
+                  <br />
+                  <input
+                    className="input"
+                    type="text"
+                    name="author"
+                    defaultValue={post.author}
+                    required
+                  />
+                </label>
+                <br />
+
+                <label className="label">
+                  Category:
+                  <br />
+                  <div className="select">
+                    <select defaultValue={post.category} name="category">
+                      {categories &&
+                        categories.map((category, index) => {
+                          return (
+                            <option key={category.name + index}>
+                              {category.name}
+                            </option>
+                          )
+                        })}
+                    </select>
+                  </div>
+                </label>
+                <br />
+
+                <label className="label">
+                  Message:
+                  <br />
+                  <textarea
+                    className="textarea"
+                    name="body"
+                    defaultValue={post.body}
+                    required
+                    cols={45}
+                    rows={10}
+                  />
+                </label>
+
                 <br />
                 <input
-                className="input"
-                  type="text"
-                  name="title"
-                  defaultValue={post.title}
-                  required
+                  className="button is-success"
+                  type="submit"
+                  value="submit"
+                  style={{ marginBottom: 15 }}
                 />
-              </label>
-              <br />
+              </form>
 
-              <label  className="label">
-                Username:
-                <br />
-                <input
-                className="input"
-                  type="text"
-                  name="author"
-                  defaultValue={post.author}
-                  required
-                />
-              </label>
-              <br />
-
-              <label  className="label">
-                Category:
-                <br />
-                <div className="select">
-                <select defaultValue={post.category} name="category">
-                  {categories &&
-                    categories.map((category, index) => {
-                      return (
-                        <option key={category.name + index}>
-                          {category.name}
-                        </option>
-                      )
-                    })}
-                </select>
-                </div>
-
-              </label>
-              <br />
-
-              <label  className="label">
-                Message:
-                <br />
-                <textarea
-                className="textarea"
-                  name="body"
-                  defaultValue={post.body}
-                  required
-                  cols={45}
-                  rows={10}
-                />
-              </label>
-
-              <br />
-              <input className="button is-success" type="submit" value="submit" style={{marginBottom:15}}/>
-            </form>
-
-            <button onClick={this.handleGoBack} className="button is-primary"> Go Back</button>
-          </div>
-        </div>}
+              <button onClick={this.handleGoBack} className="button is-primary">
+                {" "}Go Back
+              </button>
+            </div>
+          </div>}
       </div>
     ) //EndofReturn
   } //EndofRender
 } //End of Edit Post View
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = ({ categories, posts }, ownProps) => {
   return {
-    categories: state.categories,
-    posts: state.posts,
-    post: state.posts.find(post => post.id === ownProps.match.params.id)
+    categories,
+    posts,
+    post: posts.find(post => post.id === ownProps.match.params.id)
   }
 }
 
