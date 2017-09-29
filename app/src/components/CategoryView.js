@@ -21,11 +21,10 @@ class CategoryView extends React.Component {
         <div className="section">
         <Header />
 
-          <div>
             <div className="level">
               <div className="level-left">
-                <div className="level-item">
-                  <p className="title is-5">
+                <div className="level-item" style={{paddingLeft:50}}>
+                  <p className="subtitle is-5">
                     <strong>
                       List of {categoryMatch} posts
                     </strong>
@@ -73,7 +72,6 @@ class CategoryView extends React.Component {
                   )
                 })}
           </div>
-        </div>
       </div>
     )
   } //End of Render

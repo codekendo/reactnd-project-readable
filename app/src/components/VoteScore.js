@@ -20,29 +20,19 @@ class VoteScore extends Component {
   render() {
     const { score } = this.props
     return (
-      <div style={{width:100}}>
-        <div class="columns" stlye="">
-          <div class="column button is-success has-text-centered">
-            {score}
-          </div>
-        </div>
-
-        <div class="columns">
-          <div class="column button is-info has-text-centered">
-            <span onClick={this.handleUpVote}>
-              <FaThumbsOUp size={15} />
-            </span>{" "}
-          </div>
-          <div class="column button is-primary has-text-centered">
-            <span onClick={this.handleDownVote}>
-              <FaThumbsODown size={15} />
-            </span>{" "}
-          </div>
+      <div className="outline">
+        <span>
+          {score}
+        </span>
+        <div>
+          <span onClick={this.handleUpVote}>
+            <FaThumbsOUp size={15} />
+          </span>
+          <span onClick={this.handleDownVote}>
+            <FaThumbsODown size={15} />
+          </span>
         </div>
       </div>
-
-
-
     )
   }
 }

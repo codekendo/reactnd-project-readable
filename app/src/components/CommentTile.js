@@ -12,28 +12,69 @@ class CommentTile extends Component {
     e.preventDefault()
     dispatch(deleteComment(comment.id))
   }
-
+  /*
+<div className="commentTileWrapper" style={{padding:25}}>
+  <div>
+    <CommentVoteScore score={comment.voteScore} id={comment.id} />
+    <b>
+      {comment.author} &nbsp;
+    </b>
+    {showDate(comment.timestamp)}
+  </div>
+  <div>
+    {comment.body}
+  </div>
+  <br />
+  <div>
+    <Link to={`/editcomment/${comment.parentId}`}>
+      {" "}<button className="button is-primary is-small" style={{marginRight:10, marginLeft:15}}>Edit</button>
+    </Link>
+    &nbsp;
+    <button onClick={this.handleDelete} className="button is-small is-warning">Delete</button>
+  </div>
+</div>
+*/
   render() {
     const { comment } = this.props
     return (
-      <div className="commentTileWrapper">
-        <div>
-          <CommentVoteScore score={comment.voteScore} id={comment.id} />
-          <b>
-            {comment.author} &nbsp;
-          </b>
-          {showDate(comment.timestamp)}
-        </div>
-        <div>
-          {comment.body}
-        </div>
-        <br />
-        <div>
-          <Link to={`/editcomment/${comment.parentId}`}>
-            {" "}<button>Edit</button>
-          </Link>
-          &nbsp;
-          <button onClick={this.handleDelete}>Delete</button>
+      <div>
+        <div className="commentTileWrapper">
+          <article className="media">
+            <div className="media-left">
+              <figure className="has-text-centered is-64x64">
+                <CommentVoteScore score={comment.voteScore} id={comment.id} />
+              </figure>
+            </div>
+            <div className="media-content">
+              <div className="content">
+                <p>
+                  <strong>{comment.author}</strong>{" "}
+                  <small>{showDate(comment.timestamp)}</small>
+                  <br />
+                  {comment.body}{" "}
+                </p>
+                <p>
+                  <div>
+                    <Link to={`/editcomment/${comment.parentId}`}>
+                      {" "}<button
+                        className="button is-primary is-small"
+                        style={{ marginRight: 10, marginLeft: 15 }}
+                      >
+                        Edit
+                      </button>
+                    </Link>
+                    &nbsp;
+                    <button
+                      onClick={this.handleDelete}
+                      className="button is-small is-warning"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </p>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     )

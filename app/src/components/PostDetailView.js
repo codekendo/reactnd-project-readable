@@ -66,62 +66,79 @@ class PostDetailView extends Component {
           !post.deleted &&
           <div className="section">
             <Header />
-            <div>
-              <div className="level">
-                <div className="level-left">
-                  <div className="level-item">
-                    <p className="subtitle is-5">
-                      <strong> posts</strong>
-                    </p>
-                  </div>
-                </div>
 
-                <div className="level-right">
-
-                </div>
-              </div>
-              </div>
             {post &&
               <div>
-                <header className="post-detail-header-wrapper">
+                <div
+                  className="post-detail-header-wrapper title is-5"
+                  style={{ marginBottom: 5 }}
+                >
                   <div>
                     <VoteScore score={post.voteScore} id={post.id} />
                   </div>
                   <div>
-                    <h2>
+                    <strong>
                       {post.title}
-                    </h2>
+                    </strong>
                   </div>
-                </header>
-                <main className="post-view-subsection">
-                  <h3>
-                    Body: {post.body}
-                  </h3>
-                  <h4>
+                </div>
+
+                <main className="content" style={{ marginLeft: 50 }}>
+                  <blockquote>
+                    {post.body}
+                  </blockquote>
+                  <div>
                     Author: {post.author}
-                  </h4>
-                  <h4>
+                  </div>
+                  <div>
                     Created: {showDate(post.timestamp)}
-                  </h4>
-                  <h4>
+                  </div>
+                  <div style={{ marginBottom: 20 }}>
                     Category: {post.category}
-                  </h4>
+                  </div>
+
                   <Link to={`/edit/${post.id}`}>
-                    <button>Edit</button>
+                    <button
+                      className="button is-primary is-small"
+                      style={{ marginRight: 10 }}
+                    >
+                      Edit
+                    </button>
                   </Link>
 
-                  <button onClick={this.handleDeletePost}>Delete</button>
+                  <button
+                    className="button is-warning is-small"
+                    onClick={this.handleDeletePost}
+                  >
+                    Delete
+                  </button>
                 </main>
               </div>}
 
-            <div className="comment-section">
+            <div className="section content">
               {comments &&
                 <div>
-                  <h2>Comments:</h2>
-                  <div className="commentButtonWrapper">
-                    <button onClick={this.handleScore}>Highest Score</button>
-                    <button onClick={this.handleTime}>Newest</button>
+                  <div className="level">
+                    <div className="level-left">
+                      <h2 className="subtitle is-5">Comments:</h2>
+                    </div>
+                    <div className="level-right">
+                      <button
+                        onClick={this.handleScore}
+                        className="button is-info is-small"
+                        style={{ marginRight: 15 }}
+                      >
+                        Highest Score
+                      </button>
+                      <button
+                        onClick={this.handleTime}
+                        className="button is-info is-small"
+                      >
+                        Newest
+                      </button>
+                    </div>
                   </div>
+
                   <div>
                     {comments.map(comment => {
                       return <CommentTile comment={comment} key={comment.id} />

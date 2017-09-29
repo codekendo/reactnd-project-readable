@@ -26,10 +26,11 @@ class AddComment extends Component {
   render() {
     return (
       <div className="commentTileWrapper">
-        <h3>Add a comment:</h3>
+        <h3 className="subtitle is-5">Add a comment:</h3>
         <br />
         <form onSubmit={this.handleSubmit}>
           <input
+            className="input"
             type="text"
             required
             name="author"
@@ -38,6 +39,7 @@ class AddComment extends Component {
           <br />
           <br />
           <textarea
+            className="textarea"
             type="text"
             required
             name="body"
@@ -48,7 +50,11 @@ class AddComment extends Component {
           <br />
           <br />
 
-          <input type="submit" value="Post Comment" />
+          <input
+            type="submit"
+            value="Post Comment"
+            className="button is-success"
+          />
           <br />
         </form>
       </div>

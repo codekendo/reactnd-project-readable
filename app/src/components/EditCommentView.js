@@ -3,6 +3,7 @@ import { withRouter } from "react-router"
 import { connect } from "react-redux"
 import { getCommentsById, updateCommentAction } from "../actions"
 import serializeForm from "form-serialize"
+import Header from "../containers/HeaderContainer"
 
 class EditCommentView extends Component {
   componentDidMount() {
@@ -25,48 +26,45 @@ class EditCommentView extends Component {
   }
 
   render() {
-    console.log(this.props)
-
     const { comment } = this.props
     return (
       <div>
         {comment &&
           <div>
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                Edit UserName:
-                <br />
-                <br />
-                <input
-                  type="text"
-                  name="author"
-                  defaultValue={comment.author}
-                  required
-                />
-              </label>
-              <br />
-              <br />
+            <Header />
+            <div classNme="columns">
+              <div className="column is-half">
+                <form onSubmit={this.handleSubmit}>
+                  <label className="label">
+                    Edit UserName:
+                    <input
+                      className="input"
+                      type="text"
+                      name="author"
+                      defaultValue={comment.author}
+                      required
+                    />
+                  </label>
 
-              <label>
-                Edit Comment:
-                <br />
-                <br />
-              </label>
+                  <label className="label">Edit Comment:</label>
 
-              <textarea
-                src=""
-                cols={20}
-                rows={5}
-                required
-                name="body"
-                defaultValue={comment.body}
-              />
-              <br />
-              <br />
-              <input type="submit" value="Update Comments" />
-            </form>
-            <br />
-            <button onClick={this.handleGoBack}>Go Back</button>
+                  <textarea
+                    className="textarea"
+                    src=""
+                    cols={20}
+                    rows={5}
+                    required
+                    name="body"
+                    defaultValue={comment.body}
+                  />
+<br/>
+                  <input type="submit" className="button is-success" value="Update Comments" />
+                </form>
+                <br/>
+
+                <button className="button is-primary"onClick={this.handleGoBack}>Go Back</button>
+              </div>
+            </div>
           </div>}
       </div>
     ) //EndofReturn
