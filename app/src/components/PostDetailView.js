@@ -54,7 +54,6 @@ class PostDetailView extends Component {
 
   render() {
     const { posts, postId, comments } = this.props
-    // console.log(this.props)
     let post
 
     post = posts.find(singlePosts => {

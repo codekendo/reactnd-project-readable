@@ -31,7 +31,7 @@ const getCategoriesThroughApi = dispatch => {
 
   return fetch("http://localhost:3001/categories", myInit)
     .then(res => res.json())
-    .then(data => data) 
+    .then(data => data)
 }
 
 const receivedCategories = data => ({
@@ -63,7 +63,6 @@ export const sendPostsNow = bodyObject => dispatch => {
 }
 
 const fetchSendPost = bodyObject => {
-  console.log("bodyObject:", bodyObject)
   const myInit = {
     method: "POST",
     headers: {
