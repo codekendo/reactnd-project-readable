@@ -39,7 +39,7 @@ class ListPosts extends Component {
                     <div className="media-content">
                       <div className="content">
                         <strong>
-                          {" "}<Link to={"/post/" + post.id}>{post.title}</Link>
+                          {" "}<Link to={'/'+`${post.category}`+'/' + post.id}>{post.title}</Link>
                         </strong>
                         <p>
                           <strong>{post.author}</strong>{" "}

@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
-import { fetchPostsNow } from "../actions/"
+import { getPostsAction } from "../actions/"
 import "../App.css"
 import VoteScore from "./VoteScore"
 import Header from "../containers/HeaderContainer"
@@ -10,7 +10,7 @@ import { showDate } from "../utils/utility.js"
 class CategoryView extends React.Component {
   componentWillMount() {
     const { dispatch } = this.props
-    dispatch(fetchPostsNow())
+    dispatch(getPostsAction())
   }
 
   render() {

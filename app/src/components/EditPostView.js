@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router"
 import { connect } from "react-redux"
-import { fetchPostsNow, getCategoriesAction, editPostAction } from "../actions"
+import { getPostsAction, getCategoriesAction, editPostAction } from "../actions"
 import serializeForm from "form-serialize"
 import Header from "../containers/HeaderContainer"
 
@@ -9,7 +9,7 @@ class EditPostView extends Component {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(getCategoriesAction())
-    dispatch(fetchPostsNow())
+    dispatch(getPostsAction())
   }
   handleSubmit = e => {
     e.preventDefault()

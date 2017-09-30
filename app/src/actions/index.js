@@ -15,68 +15,62 @@ export const ADD_COMMENT = "ADD_COMMENT"
 export const DELETE_COMMENT = "DELETE_COMMENT"
 export const UPDATE_COMMENT = "UPDATE_COMMENT"
 
+const header = {
+  Accept: "application/json",
+  Authorization: "Basic YmxhaDpibGFo",
+  "Content-Type": "application/json"
+}
+const url = "http://localhost:3001/"
+
 export const getCategoriesAction = () => dispatch => {
   return getCategoriesThroughApi().then(data =>
-    dispatch(receivedCategories(data))
+    dispatch(setCategoriesInRedux(data))
   )
 }
 
 const getCategoriesThroughApi = dispatch => {
   const myInit = {
     method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    }
+    headers: header
   }
 
-  return fetch("http://localhost:3001/categories", myInit)
+  return fetch(url + "categories", myInit)
     .then(res => res.json())
     .then(data => data)
 }
 
-const receivedCategories = data => ({
+const setCategoriesInRedux = data => ({
   type: SET_CATEGORIES,
   categories: data.categories
 })
 
-const fetchPosts = dispatch => {
+export const getPostsAction = () => dispatch => {
+  return getPostsThroughApi().then(data => dispatch(setPostsInRedux(data)))
+}
+
+
+const getPostsThroughApi = dispatch => {
   const myInit = {
     method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    }
+    headers: header
   }
-  return fetch("http://localhost:3001/posts", myInit)
-    .then(res => res.json())
-    .then(data => data)
-}
-export const fetchPostsNow = () => dispatch => {
-  return fetchPosts().then(data => dispatch(receivedPosts(data)))
+  return fetch(url + "posts", myInit).then(res => res.json()).then(data => data)
 }
 
-const receivedPosts = data => ({ type: SET_POSTS, posts: data })
 
-export const sendPostsNow = bodyObject => dispatch => {
+const setPostsInRedux = data => ({ type: SET_POSTS, posts: data })
+
+export const sendPostToServerAction = bodyObject => dispatch => {
   return fetchSendPost(bodyObject)
 }
 
 const fetchSendPost = bodyObject => {
   const myInit = {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    },
+    headers: header,
     body: JSON.stringify(bodyObject)
   }
-  return fetch("http://localhost:3001/posts", myInit)
-    .then(res => res.json())
-    .then(data => data)
+  return fetch(url + "posts", myInit).then(res => res.json()).then(data => data)
 }
 
 export const setPostFilter = myFilter => ({ type: SET_POST_FILTER, myFilter })
@@ -88,15 +82,11 @@ export const upVoteThisPost = id => dispatch => {
 const upVoteThroughApi = id => {
   const myInit = {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    },
+    headers: header,
     body: JSON.stringify({ option: "upVote" })
   }
 
-  return fetch(`http://localhost:3001/posts/${id}`, myInit)
+  return fetch(`${url}posts/${id}`, myInit)
 }
 
 const upVoteThroughRedux = id => ({ type: UPVOTE, id })
@@ -108,14 +98,10 @@ export const downVoteThisPost = id => dispatch => {
 const downVoteThroughApi = id => {
   const myInit = {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    },
+    headers: header,
     body: JSON.stringify({ option: "downVote" })
   }
-  return fetch(`http://localhost:3001/posts/${id}`, myInit)
+  return fetch(`${url}posts/${id}`, myInit)
 }
 
 const downVoteThroughRedux = id => ({ type: DOWNVOTE, id })
@@ -129,16 +115,10 @@ export const getCommentsById = id => dispatch => {
 const getCommentsThroughAPI = id => {
   const myInit = {
     method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    }
+    headers: header
   }
 
-  return fetch(`http://localhost:3001/posts/${id}/comments`, myInit).then(res =>
-    res.json()
-  )
+  return fetch(`${url}posts/${id}/comments`, myInit).then(res => res.json())
 }
 
 const setCommentsThroughRedux = comments => ({ type: SET_COMMENTS, comments })
@@ -152,15 +132,11 @@ export const upVoteThisComment = id => dispatch => {
 const upVoteCommentThoughApi = id => {
   const myInit = {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    },
+    headers: header,
     body: JSON.stringify({ option: "upVote" })
   }
 
-  return fetch(`http://localhost:3001/comments/${id}`, myInit)
+  return fetch(`${url}comments/${id}`, myInit)
 }
 
 const upVoteCommentThroughRedux = id => ({ type: UPVOTE_COMMENT, id })
@@ -174,14 +150,10 @@ export const downVoteThisComment = id => dispatch => {
 const downVoteCommentThoughApi = id => {
   const myInit = {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    },
+    headers: header,
     body: JSON.stringify({ option: "downVote" })
   }
-  return fetch(`http://localhost:3001/comments/${id}`, myInit)
+  return fetch(`${url}comments/${id}`, myInit)
 }
 
 const downVoteCommentThroughRedux = id => ({ type: DOWNVOTE_COMMENT, id })
@@ -200,13 +172,9 @@ export const deletePostAction = id => dispatch => {
 const deletePostThroughAPI = id => {
   const myInit = {
     method: "DELETE",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    }
+    headers: header
   }
-  return fetch(`http://localhost:3001/posts/${id}`, myInit)
+  return fetch(`${url}posts/${id}`, myInit)
 }
 
 const deletePostThroughRedux = id => ({ type: DELETE_POST, id })
@@ -220,14 +188,10 @@ export const editPostAction = (postObject, id) => dispatch => {
 const editPostThroughApi = (postObject, id) => {
   const myInit = {
     method: "PUT",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    },
+    headers: header,
     body: JSON.stringify(postObject)
   }
-  return fetch(`http://localhost:3001/posts/${id}`, myInit)
+  return fetch(`${url}posts/${id}`, myInit)
 }
 
 const editPostThroughRedux = (postObject, id) => ({
@@ -245,14 +209,10 @@ export const addComment = comment => dispatch => {
 const addCommentThroughApi = comment => {
   const myInit = {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    },
+    headers: header,
     body: JSON.stringify(comment)
   }
-  return fetch(`http://localhost:3001/comments/`, myInit)
+  return fetch(`${url}comments/`, myInit)
 }
 
 const addCommentThroughRedux = comment => ({
@@ -269,13 +229,9 @@ export const deleteComment = id => dispatch => {
 const deleteCommentThroughApi = id => {
   const myInit = {
     method: "DELETE",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    }
+    headers: header
   }
-  return fetch(`http://localhost:3001/comments/${id}`, myInit)
+  return fetch(`${url}comments/${id}`, myInit)
 }
 
 const deleteCommentThroughRedux = id => ({ type: DELETE_COMMENT, id })
@@ -288,14 +244,10 @@ export const updateCommentAction = (id, modObject) => dispatch => {
 const updateCommentThroughApi = (id, body) => {
   const myInit = {
     method: "PUT",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Basic YmxhaDpibGFo",
-      "Content-Type": "application/json"
-    },
+    headers: header,
     body: JSON.stringify(body)
   }
-  return fetch(`http://localhost:3001/comments/${id}`, myInit)
+  return fetch(`${url}comments/${id}`, myInit)
 }
 
 const updateCommentThroughRedux = (id, modObject) => ({

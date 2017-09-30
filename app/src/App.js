@@ -25,7 +25,7 @@ class App extends Component {
 
         <Route
           exact
-          path="/post/:id"
+          path="/:category/:id"
           component={({ match }) => <PostDetailView postId={match.params.id} />}
         />
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { getCategoriesAction, fetchPostsNow } from "../actions/"
+import { getCategoriesAction, getPostsAction } from "../actions/"
 import { Link } from "react-router-dom"
 import "../App.css"
 import ListPosts from "../components/ListPosts"
@@ -28,7 +28,7 @@ class MainPage extends Component {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(getCategoriesAction())
-    dispatch(fetchPostsNow())
+    dispatch(getPostsAction())
   }
 
   render() {

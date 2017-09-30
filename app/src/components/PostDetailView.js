@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import {
-  fetchPostsNow,
+  getPostsAction,
   getCommentsById,
   setCommentFilter,
   deletePostAction
@@ -29,8 +29,8 @@ const filterMyComments = (comments, filter) => {
 
 class PostDetailView extends Component {
   componentWillMount() {
-    const { getCommentsById, fetchPostsNow, getCommentFilter } = this.props
-    fetchPostsNow()
+    const { getCommentsById, getPostsAction, getCommentFilter } = this.props
+    getPostsAction()
     getCommentsById()
     getCommentFilter()
   }
@@ -173,8 +173,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getCommentsById: () => {
     dispatch(getCommentsById(ownProps.postId))
   },
-  fetchPostsNow: () => {
-    dispatch(fetchPostsNow())
+  getPostsAction: () => {
+    dispatch(getPostsAction())
   },
   getCommentFilter: (filter = "HIGHEST_SCORE") => {
     dispatch(setCommentFilter(filter))
