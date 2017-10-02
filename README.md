@@ -9,10 +9,22 @@ Clone the repo in your project folder
 git clone https://github.com/codekendo/reactnd-project-readable.git
 ```
 
-There will be 2 folders one server and the other app.
+There will be 2 folders inside the reactnd-project-readable
+folder, one called server that runs a local server and the
+other called app that runs react/redux app.
+```
+reactnd-project-readable
+|      README.md
+|______app
+|      |    (app files)
+|______server
+|      |    (server files)
+````
+
 Start the server first by going into folder and install dependencies.
 
 ```
+cd server
 npm install
 ```
 
@@ -24,6 +36,7 @@ node server.js
 To run the app install the dependencies
 
 ```
+cd app
 npm install
 ```
 
