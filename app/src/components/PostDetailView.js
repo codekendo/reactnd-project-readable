@@ -155,7 +155,7 @@ class PostDetailView extends Component {
             </div>
           </div>}
 
-        {post && post.deleted && <div>Post not found</div>}
+        {post && post.deleted && <div>Sorry this post does not exist</div>}
       </div>
     )
   }
