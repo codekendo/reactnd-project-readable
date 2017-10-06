@@ -27,3 +27,7 @@ export const showDate = timestamp => {
     date + " " + month + " " + year + " " + hour + ":" + min /*+ ':' + sec */
   return time
 }
+
+export const objectToArray = object => {
+  return Object.keys(object).map(idString => object[idString])
+}

@@ -8,7 +8,6 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { categories } = this.props
     return (
       <div className="container">
@@ -23,7 +22,7 @@ class Header extends Component {
               {categories &&
                 categories.map((category, index) =>
                   <div key={index} className="navbar-item">
-                    <Link to={`/categories/${category.name}`}>
+                    <Link to={`/${category.name}`}>
                       {category.name}
                     </Link>
                   </div>

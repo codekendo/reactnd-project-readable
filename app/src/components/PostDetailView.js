@@ -7,7 +7,7 @@ import {
   deletePostAction
 } from "../actions"
 import VoteScore from "./VoteScore"
-import { showDate } from "../utils/utility"
+import { showDate, objectToArray } from "../utils/utility"
 import { Link } from "react-router-dom"
 import CommentTile from "./CommentTile"
 import "../App.css"
@@ -53,12 +53,7 @@ class PostDetailView extends Component {
   }
 
   render() {
-    const { posts, postId, comments } = this.props
-    let post
-
-    post = posts.find(singlePosts => {
-      return postId === singlePosts.id
-    })
+    const { comments, post } = this.props
     return (
       <div className="container">
         {post &&
@@ -96,7 +91,7 @@ class PostDetailView extends Component {
                     Category: {post.category}
                   </div>
 
-                  <Link to={`/edit/${post.id}`}>
+                  <Link to={`/editpost/${post.id}`}>
                     <button
                       className="button is-primary is-small"
                       style={{ marginRight: 10 }}
@@ -161,13 +156,14 @@ class PostDetailView extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    posts: state.posts,
-    comments: filterMyComments(state.comments, state.commentFilter),
-    commentFilter: state.commentFilter
-  }
-}
+const mapStateToProps = ({ posts, comments, commentFilter }, ownProps) => ({
+  posts: objectToArray(posts),
+  post: objectToArray(posts).find(
+    singlePosts => ownProps.postId === singlePosts.id
+  ),
+  comments: filterMyComments(objectToArray(comments), commentFilter),
+  commentFilter: commentFilter
+})
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getCommentsById: () => {

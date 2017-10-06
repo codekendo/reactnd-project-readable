@@ -14,6 +14,8 @@ export const EDIT_POST = "EDIT_POST"
 export const ADD_COMMENT = "ADD_COMMENT"
 export const DELETE_COMMENT = "DELETE_COMMENT"
 export const UPDATE_COMMENT = "UPDATE_COMMENT"
+export const ADD_POST = "ADD_POST"
+export const SET_ONE_COMMENT = "SET_ONE_COMMENT"
 
 const header = {
   Accept: "application/json",
@@ -23,20 +25,13 @@ const header = {
 const url = "http://localhost:3001/"
 
 export const getCategoriesAction = () => dispatch => {
-  return getCategoriesThroughApi().then(data =>
-    dispatch(setCategoriesInRedux(data))
-  )
-}
-
-const getCategoriesThroughApi = dispatch => {
   const myInit = {
     method: "GET",
     headers: header
   }
-
   return fetch(url + "categories", myInit)
     .then(res => res.json())
-    .then(data => data)
+    .then(data => dispatch(setCategoriesInRedux(data)))
 }
 
 const setCategoriesInRedux = data => ({
@@ -45,33 +40,31 @@ const setCategoriesInRedux = data => ({
 })
 
 export const getPostsAction = () => dispatch => {
-  return getPostsThroughApi().then(data => dispatch(setPostsInRedux(data)))
-}
-
-
-const getPostsThroughApi = dispatch => {
   const myInit = {
     method: "GET",
     headers: header
   }
-  return fetch(url + "posts", myInit).then(res => res.json()).then(data => data)
+  return fetch(url + "posts", myInit)
+    .then(res => res.json())
+    .then(data => dispatch(setPostsInRedux(data)))
 }
-
 
 const setPostsInRedux = data => ({ type: SET_POSTS, posts: data })
 
-export const sendPostToServerAction = bodyObject => dispatch => {
-  return fetchSendPost(bodyObject)
-}
-
-const fetchSendPost = bodyObject => {
+export const addNewPostAction = bodyObject => dispatch => {
   const myInit = {
     method: "POST",
     headers: header,
     body: JSON.stringify(bodyObject)
   }
-  return fetch(url + "posts", myInit).then(res => res.json()).then(data => data)
+  return fetch(url + "posts", myInit)
+    .then(res => res.json())
+    .then(data => dispatch(addNewPostThroughRedux(bodyObject)))
 }
+const addNewPostThroughRedux = bodyObject => ({
+  type: ADD_POST,
+  post: bodyObject
+})
 
 export const setPostFilter = myFilter => ({ type: SET_POST_FILTER, myFilter })
 
@@ -255,3 +248,19 @@ const updateCommentThroughRedux = (id, modObject) => ({
   id,
   modObject
 })
+
+export const getSingleCommmentAction = id => dispatch => {
+  const myInit = {
+    method: "GET",
+    headers: header
+  }
+  return fetch(`${url}comments/${id}`, myInit)
+    .then(res => res.json())
+    .then(data => data)
+    .then(comment =>
+      dispatch({
+        type: SET_ONE_COMMENT,
+        comment
+      })
+    )
+}

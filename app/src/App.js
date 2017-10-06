@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router"
-import { Route } from "react-router-dom"
+import { Route, Switch } from "react-router-dom"
 import MainPageContainer from "./containers/MainPageContainer"
 import CategoryView from "./components/CategoryView"
 import AddNewPosts from "./components/AddNewPosts"
@@ -8,40 +8,29 @@ import PostDetailView from "./components/PostDetailView"
 import EditPostView from "./components/EditPostView"
 import EditCommentView from "./components/EditCommentView"
 
-//Default view is Highest VoteScore
-// Dynamically Add Categories
-
 class App extends Component {
   render() {
-    const { history } = this.props
-
     return (
       <div>
-        <Route exact path="/" render={() => <MainPageContainer />} />
-
-        <Route exact path="/categories/:name" component={CategoryView} />
-
-        <Route exact path="/new" render={({ history }) => <AddNewPosts />} />
-
-        <Route
-          exact
-          path="/:category/:id"
-          component={({ match }) => <PostDetailView postId={match.params.id} />}
-        />
-
-        <Route
-          exact
-          path="/edit/:id"
-          render={({ match, history }) =>
-            <EditPostView postId={match.params.id} history={history} />}
-        />
-
-        <Route
-          exact
-          path="/editcomment/:id"
-          render={({match}) =>
-            <EditCommentView commentId={match.params.id} history={history} />}
-        />
+        <Switch>
+          <Route exact path="/" render={() => <MainPageContainer />} />
+          <Route
+            path="/editcomment/:commentId"
+            render={({ match }) =>
+              <EditCommentView commentId={match.params.commentId} />}
+          />
+          <Route
+            path="/editpost/:query"
+            render={({ match }) => <EditPostView postId={match.params.query} />}
+          />
+          <Route
+            path="/:category/:postid"
+            render={({ match }) =>
+              <PostDetailView postId={match.params.postid} />}
+          />
+          <Route exact path="/new" render={({ history }) => <AddNewPosts />} />
+          <Route path="/:name" render={() => <CategoryView />} />
+        </Switch>
       </div>
     )
   }

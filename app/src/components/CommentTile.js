@@ -12,28 +12,7 @@ class CommentTile extends Component {
     e.preventDefault()
     dispatch(deleteComment(comment.id))
   }
-  /*
-<div className="commentTileWrapper" style={{padding:25}}>
-  <div>
-    <CommentVoteScore score={comment.voteScore} id={comment.id} />
-    <b>
-      {comment.author} &nbsp;
-    </b>
-    {showDate(comment.timestamp)}
-  </div>
-  <div>
-    {comment.body}
-  </div>
-  <br />
-  <div>
-    <Link to={`/editcomment/${comment.parentId}`}>
-      {" "}<button className="button is-primary is-small" style={{marginRight:10, marginLeft:15}}>Edit</button>
-    </Link>
-    &nbsp;
-    <button onClick={this.handleDelete} className="button is-small is-warning">Delete</button>
-  </div>
-</div>
-*/
+
   render() {
     const { comment } = this.props
     return (
@@ -54,8 +33,8 @@ class CommentTile extends Component {
                   {comment.body}{" "}
                 </p>
                 <p>
-                  <Link to={`/editcomment/${comment.parentId}`}>
-                    {" "}<button
+                  <Link to={`/editcomment/${comment.id}`}>
+                    <button
                       className="button is-primary is-small"
                       style={{ marginRight: 10, marginLeft: 15 }}
                     >

@@ -4,7 +4,8 @@ import {
   UPVOTE,
   DOWNVOTE,
   DELETE_POST,
-  EDIT_POST
+  EDIT_POST,
+  ADD_POST
 } from "../actions/index.js"
 
 export const postFilter = (state = "SHOW_ALL", action) => {
@@ -18,40 +19,53 @@ export const postFilter = (state = "SHOW_ALL", action) => {
 
 export const posts = (state = [], action) => {
   const { posts, id, post } = action
-  const findIndex = id => state.findIndex(post => post.id === id)
-
   switch (action.type) {
     case SET_POSTS:
-      return [...posts]
-    case UPVOTE:
-      const index = findIndex(id)
+      return posts.reduce((sum, value) => {
+        sum[value.id] = value
+        return sum
+      }, {})
 
-      return [...state, state[index].voteScore++]
+    case UPVOTE:
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          voteScore: state[id].voteScore + 1
+        }
+      }
 
     case DOWNVOTE:
-      return [...state].map(postObject => {
-        if (postObject.id === id) {
-          postObject.voteScore--
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          voteScore: state[id].voteScore - 1
         }
-        return postObject
-      })
+      }
 
     case DELETE_POST:
-      return [...state].map(postObject => {
-        if (postObject.id === id) {
-          postObject.deleted = true
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          deleted: true
         }
-        return postObject
-      })
+      }
 
     case EDIT_POST:
-      return [...state].map(postObject => {
-        if (postObject.id === id) {
-          return post
-        } else {
-          return postObject
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          ...post
         }
-      })
+      }
+    case ADD_POST:
+      return {
+        ...state,
+        [post.id]: post
+      }
 
     default:
       return state

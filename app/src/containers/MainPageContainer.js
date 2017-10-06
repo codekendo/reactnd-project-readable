@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import "../App.css"
 import ListPosts from "../components/ListPosts"
 import Header from "../containers/HeaderContainer"
+import { objectToArray } from "../utils/utility"
 
 const getVisiblePosts = (posts, filter) => {
   const filteredPosts = posts.filter(post => post.deleted === false)
@@ -35,16 +36,18 @@ class MainPage extends Component {
     const catState = this.props.categories
     const posts = this.props.posts
     return (
-      <div className="app container">
+      <div className="container">
         <div className="section">
           <Header categories={catState} />
 
-          <ListPosts posts={posts} />
+          <ListPosts filteredPosts={posts} view="mainpage" />
         </div>
 
         <div className="newButtonWrapper">
           <Link to="/new">
-            <button className="button is-info">New Post</button>
+            <button className="button is-info" style={{ marginLeft: 30 }}>
+              New Post
+            </button>
           </Link>
         </div>
       </div>
@@ -52,11 +55,11 @@ class MainPage extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ categories, posts, postFilter }) => {
   return {
-    categories: state.categories,
-    posts: getVisiblePosts(state.posts, state.postFilter),
-    postFilter: state.postFilter
+    categories: categories,
+    posts: getVisiblePosts(objectToArray(posts), postFilter),
+    postFilter: postFilter
   }
 }
 

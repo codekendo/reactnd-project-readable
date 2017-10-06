@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
-import { getCategoriesAction, sendPostToServerAction } from "../actions/"
+import { getCategoriesAction, addNewPostAction } from "../actions/"
 import "../App.css"
 import faker from "faker"
 import { withRouter } from "react-router"
@@ -29,7 +29,7 @@ class AddNewPosts extends React.Component {
     if (modifiedFormObject.categories === 0) {
       alert("please fill out categories")
     } else {
-      dispatch(sendPostToServerAction(modifiedFormObject))
+      dispatch(addNewPostAction(modifiedFormObject))
       history.push("/")
     }
   }
@@ -38,8 +38,8 @@ class AddNewPosts extends React.Component {
     return (
       <div className="section">
         <Header />
-        <br/>
-        <div className="columns" style={{marginLeft:38}}>
+        <br />
+        <div className="columns" style={{ marginLeft: 38 }}>
           <div className="column is-half">
             <h2 className="title is-5">Add New Posts</h2>
             <form onSubmit={this.handleSubmit}>
@@ -100,9 +100,9 @@ class AddNewPosts extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ categories }) => {
   return {
-    categories: state.categories
+    categories: categories
   }
 }
 export default withRouter(connect(mapStateToProps)(AddNewPosts))

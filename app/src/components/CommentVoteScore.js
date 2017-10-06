@@ -4,6 +4,7 @@ import { upVoteThisComment, downVoteThisComment } from "../actions"
 import { connect } from "react-redux"
 import FaThumbsOUp from "react-icons/lib/fa/thumbs-o-up"
 import FaThumbsODown from "react-icons/lib/fa/thumbs-o-down"
+import { objectToArray } from "../utils/utility"
 
 class CommentVoteScore extends Component {
   handleUpVote = e => {
@@ -39,7 +40,7 @@ class CommentVoteScore extends Component {
 
 const mapStateToProps = ({ comments }, ownProps) => ({
   comments,
-  comment: comments.find(comment => comment.id === ownProps.id)
+  comment: objectToArray(comments).find(comment => comment.id === ownProps.id)
 })
 
 export default connect(mapStateToProps)(CommentVoteScore)

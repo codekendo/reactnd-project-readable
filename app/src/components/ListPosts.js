@@ -4,10 +4,20 @@ import { Link } from "react-router-dom"
 import "../App.css"
 import { showDate } from "../utils/utility.js"
 import SortPostComponent from "../containers/SortPostContainer"
+import { connect } from "react-redux"
+import { deletePostAction } from "../actions"
+import CommentNumber from "./CommentNumber"
 
 class ListPosts extends Component {
+  handleDeletePost = e => {
+    e.preventDefault()
+    const id = e.target.id
+    const { deletePost } = this.props
+    deletePost(id)
+  }
   render() {
-    const { posts } = this.props
+    const posts = this.props.filteredPosts
+    const view = this.props.view
     return (
       <div>
         <div className="level">
@@ -19,9 +29,10 @@ class ListPosts extends Component {
             </div>
           </div>
 
-          <div className="level-right">
-            <SortPostComponent />
-          </div>
+          {view === "mainpage" &&
+            <div className="level-right">
+              <SortPostComponent />
+            </div>}
         </div>
 
         {posts &&
@@ -39,7 +50,9 @@ class ListPosts extends Component {
                     <div className="media-content">
                       <div className="content">
                         <strong>
-                          {" "}<Link to={'/'+`${post.category}`+'/' + post.id}>{post.title}</Link>
+                          {" "}<Link to={`/${post.category}/${post.id}`}>
+                            {post.title}
+                          </Link>
                         </strong>
                         <p>
                           <strong>{post.author}</strong>{" "}
@@ -47,6 +60,25 @@ class ListPosts extends Component {
                           <small>{showDate(post.timestamp)}</small>
                           <br />
                           {post.body}{" "}
+                        </p>
+                        <p>
+                          <Link to={`/editpost/${post.id}`}>
+                            <button
+                              className="button is-primary is-small"
+                              style={{ marginRight: 10 }}
+                            >
+                              Edit
+                            </button>
+                          </Link>
+                          <button
+                            onClick={this.handleDeletePost}
+                            className="button is-warning is-small"
+                            id={post.id}
+                            style={{ marginRight: 10 }}
+                          >
+                            Delete
+                          </button>
+                          <CommentNumber postId={post.id} />
                         </p>
                       </div>
                     </div>
@@ -59,5 +91,10 @@ class ListPosts extends Component {
     )
   }
 }
-
-export default ListPosts
+const mapStateToProps = state => state
+const mapDispatchToProps = dispatch => ({
+  deletePost: id => {
+    dispatch(deletePostAction(id))
+  }
+})
+export default connect(mapStateToProps, mapDispatchToProps)(ListPosts)

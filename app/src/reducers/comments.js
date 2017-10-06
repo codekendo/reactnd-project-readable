@@ -5,7 +5,8 @@ import {
   SET_COMMENT_FILTER,
   ADD_COMMENT,
   DELETE_COMMENT,
-  UPDATE_COMMENT
+  UPDATE_COMMENT,
+  SET_ONE_COMMENT
 } from "../actions"
 
 export const commentFilter = (state = "HIGHEST_SCORE", action) => {
@@ -19,45 +20,67 @@ export const commentFilter = (state = "HIGHEST_SCORE", action) => {
 
 export const comments = (state = [], action) => {
   const { comments, id, comment, modObject } = action
-  const findIndex = id => state.findIndex(comment => comment.id === id)
 
   switch (action.type) {
     case SET_COMMENTS:
-      return comments
+      const transformedComments = comments.reduce((sum, comment) => {
+        sum[comment.id] = comment
+        return sum
+      }, {})
+      return {
+        ...state,
+        ...transformedComments
+      }
 
     case UPVOTE_COMMENT:
-      const index = findIndex(id)
-      return [...state, state[index].voteScore++]
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          voteScore: state[id].voteScore + 1
+        }
+      }
 
     case DOWNVOTE_COMMENT:
-      return [...state].map(commentObject => {
-        if (commentObject.id === id) {
-          commentObject.voteScore--
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          voteScore: state[id].voteScore - 1
         }
-        return commentObject
-      })
+      }
 
     case ADD_COMMENT:
-      return [...state, { ...comment }]
+      return {
+        ...state,
+        [comment.id]: comment
+      }
 
     case DELETE_COMMENT:
-      return [...state].map(commentObject => {
-        if (commentObject.id === id) {
-          commentObject.deleted = true
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          deleted: true
         }
-        return commentObject
-      })
+      }
+    case SET_ONE_COMMENT:
+      return {
+        ...state,
+        [comment.id]: {
+          ...state[comment.id],
+          ...comment
+        }
+      }
 
     case UPDATE_COMMENT:
-      return [...state].map(commentObject => {
-        if (commentObject.id === id) {
-          commentObject.body = modObject.body
-          commentObject.author = modObject.author
-          return commentObject
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          ...modObject
         }
-        return commentObject
-      })
-
+      }
     default:
       return state
   }
