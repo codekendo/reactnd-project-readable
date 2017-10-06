@@ -34,7 +34,7 @@ class AddNewPosts extends React.Component {
     }
   }
   render() {
-    const categoryState = this.props.categories
+    const categories = this.props.categories
     return (
       <div className="section">
         <Header />
@@ -73,8 +73,8 @@ class AddNewPosts extends React.Component {
                 <div className="select">
                   <select name="category" required>
                     <option value="0">Select Category</option>
-                    {categoryState &&
-                      categoryState.map((cat, index) => {
+                    {categories &&
+                      categories.map((cat, index) => {
                         return (
                           <option key={cat.name + index}>
                             {cat.name}
@@ -100,9 +100,4 @@ class AddNewPosts extends React.Component {
   }
 }
 
-const mapStateToProps = ({ categories }) => {
-  return {
-    categories: categories
-  }
-}
-export default withRouter(connect(mapStateToProps)(AddNewPosts))
+export default withRouter(connect()(AddNewPosts))

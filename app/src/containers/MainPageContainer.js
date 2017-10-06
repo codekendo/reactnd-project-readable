@@ -1,46 +1,39 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { getCategoriesAction, getPostsAction } from "../actions/"
 import { Link } from "react-router-dom"
 import "../App.css"
 import ListPosts from "../components/ListPosts"
 import Header from "../containers/HeaderContainer"
-import { objectToArray } from "../utils/utility"
 
 const getVisiblePosts = (posts, filter) => {
-  const filteredPosts = posts.filter(post => post.deleted === false)
   switch (filter) {
     case "SHOW_ALL":
-      return filteredPosts
+      return posts
     case "HIGHEST_SCORE":
-      return filteredPosts.sort((a, b) => b.voteScore - a.voteScore)
+      return posts.sort((a, b) => b.voteScore - a.voteScore)
     case "LOWEST_SCORE":
-      return filteredPosts.sort((a, b) => a.voteScore - b.voteScore)
+      return posts.sort((a, b) => a.voteScore - b.voteScore)
     case "NEWEST":
-      return filteredPosts.sort((a, b) => b.timestamp - a.timestamp)
+      return posts.sort((a, b) => b.timestamp - a.timestamp)
     case "OLDEST":
-      return filteredPosts.sort((a, b) => a.timestamp - b.timestamp)
+      return posts.sort((a, b) => a.timestamp - b.timestamp)
     default:
-      return filteredPosts
+      return posts
   }
 }
 
 class MainPage extends Component {
-  componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(getCategoriesAction())
-    dispatch(getPostsAction())
-  }
 
   render() {
-    const catState = this.props.categories
-    const posts = this.props.posts
+    const { categories, posts, postFilter } = this.props
+
+    const visiblePosts = getVisiblePosts( posts, postFilter)
+
     return (
       <div className="container">
         <div className="section">
-          <Header categories={catState} />
-
-          <ListPosts filteredPosts={posts} view="mainpage" />
+          <Header categories={categories} />
+          <ListPosts filteredPosts={visiblePosts} view="mainpage" />
         </div>
 
         <div className="newButtonWrapper">
@@ -55,12 +48,8 @@ class MainPage extends Component {
   }
 }
 
-const mapStateToProps = ({ categories, posts, postFilter }) => {
-  return {
-    categories: categories,
-    posts: getVisiblePosts(objectToArray(posts), postFilter),
-    postFilter: postFilter
-  }
-}
+const mapStateToProps = ({ postFilter }) => ({
+  postFilter: postFilter
+})
 
 export default connect(mapStateToProps)(MainPage)

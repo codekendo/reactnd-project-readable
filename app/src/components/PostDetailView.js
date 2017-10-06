@@ -1,11 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import {
-  getPostsAction,
-  getCommentsById,
-  setCommentFilter,
-  deletePostAction
-} from "../actions"
+import { getCommentsById, setCommentFilter, deletePostAction } from "../actions"
 import VoteScore from "./VoteScore"
 import { showDate, objectToArray } from "../utils/utility"
 import { Link } from "react-router-dom"
@@ -29,8 +24,7 @@ const filterMyComments = (comments, filter) => {
 
 class PostDetailView extends Component {
   componentWillMount() {
-    const { getCommentsById, getPostsAction, getCommentFilter } = this.props
-    getPostsAction()
+    const { getCommentsById, getCommentFilter } = this.props
     getCommentsById()
     getCommentFilter()
   }
@@ -53,7 +47,8 @@ class PostDetailView extends Component {
   }
 
   render() {
-    const { comments, post } = this.props
+    const { comments, posts, postId } = this.props
+    const post = posts.find(singlePosts => postId === singlePosts.id)
     return (
       <div className="container">
         {post &&
@@ -134,11 +129,11 @@ class PostDetailView extends Component {
                   </div>
 
                   <div>
-                    {comments.map(comment => {
+                    {comments.map((comment, index) => {
                       return (
                         <CommentTile
                           comment={comment}
-                          key={comment.id + comment.parentId}
+                          key={comment.id+index}
                         />
                       )
                     })}
@@ -156,11 +151,7 @@ class PostDetailView extends Component {
   }
 }
 
-const mapStateToProps = ({ posts, comments, commentFilter }, ownProps) => ({
-  posts: objectToArray(posts),
-  post: objectToArray(posts).find(
-    singlePosts => ownProps.postId === singlePosts.id
-  ),
+const mapStateToProps = ({ comments, commentFilter }, ownProps) => ({
   comments: filterMyComments(objectToArray(comments), commentFilter),
   commentFilter: commentFilter
 })
@@ -168,9 +159,6 @@ const mapStateToProps = ({ posts, comments, commentFilter }, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getCommentsById: () => {
     dispatch(getCommentsById(ownProps.postId))
-  },
-  getPostsAction: () => {
-    dispatch(getPostsAction())
   },
   getCommentFilter: (filter = "HIGHEST_SCORE") => {
     dispatch(setCommentFilter(filter))

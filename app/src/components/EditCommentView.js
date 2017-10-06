@@ -27,7 +27,6 @@ class EditCommentView extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { comment } = this.props
     return (
       <div className="container">
@@ -86,8 +85,9 @@ class EditCommentView extends Component {
 
 const mapStateToProps = ({ comments }, ownProps) => {
   return {
-    myComments: objectToArray(comments),
-    comment: objectToArray(comments)[0]
+    comment: objectToArray(comments).find(
+      comment => comment.id === ownProps.commentId
+    )
   }
 }
 

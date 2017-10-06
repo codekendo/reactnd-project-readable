@@ -1,21 +1,15 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router"
 import { connect } from "react-redux"
-import { getPostsAction, getCategoriesAction, editPostAction } from "../actions"
+import { editPostAction } from "../actions"
 import serializeForm from "form-serialize"
 import Header from "../containers/HeaderContainer"
-import { objectToArray } from "../utils/utility"
 
 class EditPostView extends Component {
-  componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(getCategoriesAction())
-    dispatch(getPostsAction())
-  }
   handleSubmit = e => {
     e.preventDefault()
-    const { dispatch, history } = this.props
-    const post = this.props.post
+    const { dispatch, history, posts, postId } = this.props
+    const post = posts.find(post => post.id === postId)
     const formObject = serializeForm(e.target, { hash: true })
     const modifiedFormObject = {
       ...formObject,
@@ -34,7 +28,8 @@ class EditPostView extends Component {
   }
 
   render() {
-    const { categories, post } = this.props
+    const { categories, posts, postId } = this.props
+    const post = posts.find(post => post.id === postId)
     return (
       <div className="container">
         <Header />
@@ -122,10 +117,5 @@ class EditPostView extends Component {
   } //EndofRender
 } //End of Edit Post View
 
-const mapStateToProps = ({ categories, posts }, ownProps) => ({
-  categories,
-  posts: objectToArray(posts),
-  post: objectToArray(posts).find(post => post.id === ownProps.postId)
-})
 
-export default withRouter(connect(mapStateToProps)(EditPostView))
+export default withRouter(connect()(EditPostView))

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom"
 
 class Header extends Component {
   componentDidMount() {
-    const { getCategories } = this.props
-    getCategories()
+    const { getCategories, categories } = this.props
+    !categories && getCategories()
   }
 
   render() {
